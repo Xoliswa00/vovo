@@ -88,7 +88,7 @@
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
-      <a class="btn-getstarted" href="properties.html">Get Started</a>
+      
 
     </div>
   </header>
