@@ -71,69 +71,11 @@
         </main>
     </div>
 
-    <footer id="footer" class="footer position-relative bg-dark text-light py-5">
+    {{-- Global UI Components --}}
+    <x-toast />
+    <x-confirm-modal />
 
-  <div class="container">
-    <div class="row gy-4">
-
-      <!-- Company Info -->
-      <div class="col-lg-4">
-        <a href="{{ url('/') }}" class="logo d-flex align-items-center mb-3 text-decoration-none">
-          <span class="sitename text-white fw-bold">Nobela Enterprises</span>
-        </a>
-        <p class="mb-3">
-          Reliable logistics and precision boilermaking solutions tailored for your business. 
-          From small parcels to bulk freight, and from steel fabrication to complex projects — 
-          we deliver with quality and trust.
-        </p>
-
-        <div class="social-links mt-3">
-          <a href="#"><i class="bi bi-facebook"></i></a>
-          <a href="#"><i class="bi bi-twitter-x"></i></a>
-          <a href="#"><i class="bi bi-linkedin"></i></a>
-          <a href="#"><i class="bi bi-youtube"></i></a>
-        </div>
-      </div>
-
-      <!-- Services -->
-      <div class="col-lg-2 col-6">
-        <h5 class="text-white mb-3">Services</h5>
-        <ul class="list-unstyled">
-          <li><a href="{{ url('/services.public') }}" class="text-light"><i class="bi bi-chevron-right"></i> Logistics</a></li>          
-                    <li><a href="{{ url('/services.public') }}"class="text-light"><i class="bi bi-chevron-right"></i> Boilermaking</a></li>
-        </ul>
-      </div>
-
-      <!-- Quick Links -->
-      <div class="col-lg-2 col-6">
-        <h5 class="text-white mb-3">Quick Links</h5>
-        <ul class="list-unstyled">
-          <li><a href="#" class="text-light"><i class="bi bi-chevron-right"></i> About Us</a></li>
-          <li><a href="#" class="text-light"><i class="bi bi-chevron-right"></i> Contact</a></li>
-          <li><a href="#" class="text-light"><i class="bi bi-chevron-right"></i> Careers</a></li>
-        </ul>
-      </div>
-
-      <!-- Contact -->
-      <div class="col-lg-4">
-        <h5 class="text-white mb-3">Get in Touch</h5>
-        <ul class="list-unstyled">
-          <li><i class="bi bi-geo-alt me-2"></i> 120 Rietfontein Road, Germiston/li>
-          <li><i class="bi bi-telephone me-2"></i> +27 82 123 4567</li>
-          <li><i class="bi bi-envelope me-2"></i> info@nobelaenterprises.co.za</li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="footer-bottom text-center mt-4 border-top pt-3">
-    <p class="mb-0">
-      © {{ date('Y') }} <strong class="sitename">Nobela Enterprises</strong>. All Rights Reserved.
-    </p>
-  </div>
-
-</footer>
+    @include('layouts.footer')
 
 
     <!-- Scroll Top -->

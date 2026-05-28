@@ -3,124 +3,119 @@
 namespace App\Http\Controllers;
 
 use App\Models\services;
-use App\Http\Requests\StoreservicesRequest;
-use App\Http\Requests\UpdateservicesRequest;
+use App\Models\Category;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB;
 
 class ServicesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-  
-        $services = Services::latest()->paginate(12);
+        $services = services::with('category', 'vendor', 'images')->latest()->paginate(15);
         return view('services.index', compact('services'));
     }
 
     public function create()
     {
-        return view('services.create');
+        $categories = Category::whereIn('type', ['service', 'both'])->get();
+        $vendors    = Vendor::where('status', 'active')->get();
+        return view('services.create', compact('categories', 'vendors'));
     }
 
- public function store(Request $request)
-{
-    // 1️⃣ Validate input
-    $validated = $request->validate([
-        'title' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'images.*' => 'image|mimes:jpg,jpeg,png|max:2048', // Optional: limit size
-    ]);
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'title'       => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'category_id' => 'nullable|exists:categories,id',
+            'vendor_id'   => 'nullable|exists:vendors,id',
+            'price'       => 'nullable|numeric|min:0',
+            'location'    => 'nullable|string|max:255',
+            'status'      => 'boolean',
+            'images.*'    => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
 
-    // 2️⃣ Create the service
-    $service = Services::create($validated);
+        $validated['status'] = $request->boolean('status');
+        $service = services::create($validated);
 
-    // 3️⃣ Handle image uploads (optional)
-    if ($request->hasFile('images')) {
-        foreach ($request->file('images') as $image) {
-            // Generate unique filename
-            $filename = time() . '_' . $image->getClientOriginalName();
-
-            // Move to public/assets/img
-            $image->move(public_path('assets/img'), $filename);
-
-            // Save path in the database
-            $service->images()->create([
-                'image_path' => 'assets/img/' . $filename
-            ]);
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $filename = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('assets/img'), $filename);
+                $service->images()->create(['image_path' => 'assets/img/' . $filename]);
+            }
         }
+
+        return redirect()->route('services.index')->with('success', 'Service created successfully!');
     }
 
-    // 4️⃣ Redirect with success
-    return redirect()->route('services.index')->with('success', 'Service created successfully!');
-}
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(services $services)
+    public function show(services $service)
     {
-        //
+        $service->load('images', 'category', 'vendor', 'reviews');
+        return view('services.show', compact('service'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(services $services)
+    public function edit(services $service)
     {
-        //
+        $categories = Category::whereIn('type', ['service', 'both'])->get();
+        $vendors    = Vendor::where('status', 'active')->get();
+        return view('services.create', compact('service', 'categories', 'vendors'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateservicesRequest $request, services $services)
+    public function update(Request $request, services $service)
     {
-        //
+        $validated = $request->validate([
+            'title'       => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'category_id' => 'nullable|exists:categories,id',
+            'vendor_id'   => 'nullable|exists:vendors,id',
+            'price'       => 'nullable|numeric|min:0',
+            'location'    => 'nullable|string|max:255',
+            'status'      => 'boolean',
+            'images.*'    => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
+
+        $validated['status'] = $request->boolean('status');
+        $service->update($validated);
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $filename = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('assets/img'), $filename);
+                $service->images()->create(['image_path' => 'assets/img/' . $filename]);
+            }
+        }
+
+        return redirect()->route('services.index')->with('success', 'Service updated.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(services $services)
+    public function destroy(services $service)
     {
-        //
+        $service->delete();
+        return redirect()->route('services.index')->with('success', 'Service deleted.');
     }
-    public function public()
-{
-        $services = Services::latest()->paginate(12);
-    return view('GuestServices', compact('services'));
-}
 
-public function requestForm(Services $service)
-{
-    return view('services.request', compact('service'));
-}
+    // Public listing
+    public function public(Request $request)
+    {
+        $categorySlug = $request->query('category');
+        $search       = $request->query('search');
 
-public function requestStore(Request $request, Services $service)
-{
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email',
-        'phone' => 'nullable|string|max:20',
-        'message' => 'nullable|string'
-    ]);
+        $services = services::where('status', true)
+            ->with('images', 'category', 'vendor')
+            ->when($categorySlug, fn($q) => $q->whereHas('category', fn($c) => $c->where('slug', $categorySlug)))
+            ->when($search, fn($q) => $q->where('title', 'like', "%{$search}%"))
+            ->latest()->paginate(12);
 
-    // Save request (could also send email notification)
-    DB::table('service_requests')->insert([
-        'service_id' => $service->id,
-        'name' => $request->name,
-        'email' => $request->email,
-        'phone' => $request->phone,
-        'message' => $request->message,
-        'created_at' => now(),
-        'updated_at' => now(),
-    ]);
+        $categories = Category::whereIn('type', ['service', 'both'])->withCount('services')->get();
 
-    return redirect()->route('services.public')->with('success', 'Your request has been sent!');
-}
+        return view('GuestServices', compact('services', 'categories', 'categorySlug', 'search'));
+    }
+
+    // Public service detail
+    public function publicShow(services $service)
+    {
+        $service->load('images', 'category', 'vendor', 'reviews');
+        return view('services.public-show', compact('service'));
+    }
 }

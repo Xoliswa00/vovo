@@ -1,132 +1,100 @@
-<x-guest-layout>
-    <section class="py-5 container">
-        <div class="row gy-4">
-            {{-- LEFT COLUMN --}}
-            <div class="col-md-6">
-                <h5 class="mb-3">Who We Are</h5>
-                <p>
-                    Nobela Enterprise is located in the heart of Gauteng. We assist clients in buying,
-                    selling, and managing their properties. Before starting the process, we provide
-                    counseling to ensure our clients make the right decisions.
-                </p>
-                <p>
-                    We also help boost credit scores, assess affordability based on property value,
-                    and assist in finding reliable tenants if you plan to use your property for business.
-                </p>
+@extends('layouts.public')
 
-                <h5 class="mb-3">Mission & Vision</h5>
-                <p><strong>Mission:</strong> To guide clients in making informed property and business decisions while providing trusted support services.</p>
-                <p><strong>Vision:</strong> To be the go-to enterprise in Gauteng for property, logistics, and business solutions that uplift individuals and communities.</p>
+@section('title', 'About Us — Nobela Enterprises')
 
-                {{-- Carousel --}}
-                <div id="aboutCarousel" class="carousel slide mt-3" data-bs-ride="carousel">
-                    <div class="carousel-inner rounded overflow-hidden">
-                        <div class="carousel-item active">
-                            <img src="{{ asset('assets/img/property-1.jpg') }}" class="d-block w-100 carousel-img" alt="Business Meeting" loading="lazy"/>
-                        </div>
-                        <div class="carousel-item">
-                            <img src="{{ asset('assets/img/property-3.jpg') }}" class="d-block w-100 carousel-img" alt="Property Management" loading="lazy"/>
-                        </div>
-                        <div class="carousel-item">
-                            <img src="{{ asset('assets/img/property-4.jpg') }}" class="d-block w-100 carousel-img" alt="Logistics" loading="lazy"/>
-                        </div>
-                        <div class="carousel-item">
-                            <img src="{{ asset('assets/img/property-2.jpg') }}" class="d-block w-100 carousel-img" alt="Boilermaking & Fabrication" loading="lazy"/>
-                        </div>
-                    </div>
+@section('content')
+<section class="py-5">
+    <div class="container">
+        <div class="row gy-5 align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h2 class="fw-bold mb-3">Who We Are</h2>
+                <p>Nobela Enterprises is located in the heart of Gauteng. We specialize in reliable freight and logistics solutions as well as a curated marketplace for industrial services and products.</p>
+                <p>We connect businesses with trusted service providers and streamline the movement of goods — from small parcels to heavy freight — across South Africa.</p>
 
-                    <button class="carousel-control-prev" type="button" data-bs-target="#aboutCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon"></span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#aboutCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon"></span>
-                    </button>
+                <h5 class="fw-bold mt-4 mb-2">Mission & Vision</h5>
+                <p><strong>Mission:</strong> To deliver efficient, reliable logistics and a trusted marketplace that empowers businesses of all sizes.</p>
+                <p><strong>Vision:</strong> To be the leading logistics and industrial marketplace platform in Southern Africa, built on integrity and service excellence.</p>
 
-                    {{-- Indicators --}}
-                    <div class="carousel-indicators position-static mt-3">
-                        <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="0" class="active"></button>
-                        <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="1"></button>
-                        <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="2"></button>
-                        <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="3"></button>
-                    </div>
+                <div class="d-flex gap-3 mt-4">
+                    <a href="{{ route('quote.create') }}" class="btn btn-primary px-4">Get a Quote</a>
+                    <a href="{{ route('marketplace.index') }}" class="btn btn-outline-primary px-4">Browse Marketplace</a>
                 </div>
             </div>
 
-            {{-- RIGHT COLUMN --}}
-            <div class="col-md-6">
-                <h5 class="mb-3">Our Services</h5>
-                <ul class="list-unstyled">
-                    <li class="mb-3">
-                        <strong>🏠 Property Sales & Rentals</strong><br>
-                        <small>Helping you buy, sell, and rent properties with confidence.</small>
-                        <ul class="mt-2 small text-muted">
-                            <li>Market analysis & pricing strategy</li>
-                            <li>Buyer pre-qualification guidance</li>
-                            <li>Rental listing & tenant screening</li>
-                        </ul>
-                    </li>
-                    <li class="mb-3">
-                        <strong>👥 Property Management</strong><br>
-                        <small>Managing your property and securing reliable tenants.</small>
-                        <ul class="mt-2 small text-muted">
-                            <li>Rent collection & statements</li>
-                            <li>Maintenance coordination</li>
-                            <li>Inspection & compliance checks</li>
-                        </ul>
-                    </li>
-                    <li class="mb-3">
-                        <strong>💳 Credit Score Assistance</strong><br>
-                        <small>Boost your credit score and check affordability before investing.</small>
-                        <ul class="mt-2 small text-muted">
-                            <li>Credit health assessment</li>
-                            <li>Bond readiness checks</li>
-                            <li>Action plan to improve score</li>
-                        </ul>
-                    </li>
-                    <li class="mb-3">
-                        <strong>🚚 Logistics & Transportation</strong><br>
-                        <small>Reliable freight and parcel delivery solutions.</small>
-                        <ul class="mt-2 small text-muted">
-                            <li>Local & regional deliveries</li>
-                            <li>Real-time status updates</li>
-                            <li>Route optimization</li>
-                        </ul>
-                    </li>
-                    <li class="mb-3">
-                        <strong>⚙️ Boilermaking & Fabrication</strong><br>
-                        <small>High-quality industrial fabrication with precision.</small>
-                        <ul class="mt-2 small text-muted">
-                            <li>Custom steel work & repairs</li>
-                            <li>On-site assessment & quotes</li>
-                            <li>Quality control & safety first</li>
-                        </ul>
-                    </li>
-                </ul>
-       
-                <h5 class="mb-3 mt-4">Contact Information</h5>
-                <p><strong>📞 Phone:</strong> <a href="tel:+1234567890" class="link-primary">0100 2328 09</a></p>
-                <p><strong>📧 Email:</strong> <a href="mailto:info@nobela.com" class="link-primary"> info@nobelaenterprises.co.za</a></p>
-                <p><strong>📍 Address:</strong> <a href="https://maps.app.goo.gl/KZATxmvXPTHR1KVJ6" target="_blank" class="link-primary">120 Rietfontein Rd, Primrose, Germiston, 1401</a></p>
-                <p><strong>🕒 Hours:</strong> Mon–Fri 09:00 – 17:00</p>
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="card border-0 shadow-sm text-center p-4">
+                            <i class="bi bi-truck fs-1 text-primary mb-2"></i>
+                            <h5>Freight & Logistics</h5>
+                            <p class="text-muted small">Nationwide delivery with real-time tracking</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card border-0 shadow-sm text-center p-4">
+                            <i class="bi bi-shop fs-1 text-primary mb-2"></i>
+                            <h5>Marketplace</h5>
+                            <p class="text-muted small">Trusted vendors, quality industrial products</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card border-0 shadow-sm text-center p-4">
+                            <i class="bi bi-tools fs-1 text-primary mb-2"></i>
+                            <h5>Boilermaking</h5>
+                            <p class="text-muted small">Precision steel fabrication and engineering</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card border-0 shadow-sm text-center p-4">
+                            <i class="bi bi-headset fs-1 text-primary mb-2"></i>
+                            <h5>24/7 Support</h5>
+                            <p class="text-muted small">We're always available when you need us</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
 
-    {{-- Page-specific CSS --}}
-    @push('styles')
-    <style>
-        /* Force carousel images to be uniform */
-        .carousel-img {
-            height: 300px; /* adjust as needed */
-            object-fit: cover;
-            object-position: center;
-        }
+        {{-- Stats --}}
+        <div class="row text-center mt-5 g-4" data-aos="fade-up">
+            <div class="col-md-3">
+                <h2 class="fw-bold text-primary purecounter">150+</h2>
+                <p class="text-muted">Shipments Completed</p>
+            </div>
+            <div class="col-md-3">
+                <h2 class="fw-bold text-primary">50+</h2>
+                <p class="text-muted">Trusted Vendors</p>
+            </div>
+            <div class="col-md-3">
+                <h2 class="fw-bold text-primary">9</h2>
+                <p class="text-muted">Provinces Covered</p>
+            </div>
+            <div class="col-md-3">
+                <h2 class="fw-bold text-primary">100%</h2>
+                <p class="text-muted">Commitment to Quality</p>
+            </div>
+        </div>
 
-        @media (max-width: 768px) {
-            .carousel-img {
-                height: 200px; /* smaller height for tablets/phones */
-            }
-        }
-    </style>
-    @endpush
-</x-guest-layout>
+        {{-- Contact --}}
+        <div class="mt-5 p-5 bg-dark text-white rounded" data-aos="fade-up" id="contact">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="fw-bold mb-3">Get in Touch</h4>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="bi bi-geo-alt me-2"></i> 120 Rietfontein Road, Germiston, Gauteng</li>
+                        <li class="mb-2"><i class="bi bi-telephone me-2"></i> +27 82 123 4567</li>
+                        <li class="mb-2"><i class="bi bi-envelope me-2"></i> info@nobelaenterprises.co.za</li>
+                    </ul>
+                </div>
+                <div class="col-md-6 d-flex align-items-center">
+                    <div>
+                        <p class="lead">Ready to work with us?</p>
+                        <a href="{{ route('quote.create') }}" class="btn btn-primary px-4 me-2">Request a Quote</a>
+                        <a href="{{ route('services.public') }}" class="btn btn-outline-light px-4">Our Services</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endsection
