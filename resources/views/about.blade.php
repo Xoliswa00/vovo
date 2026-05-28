@@ -106,7 +106,7 @@
                 <h5 class="mb-3 mt-4">Contact Information</h5>
                 <p><strong>📞 Phone:</strong> <a href="tel:+1234567890" class="link-primary">0100 2328 09</a></p>
                 <p><strong>📧 Email:</strong> <a href="mailto:info@nobela.com" class="link-primary"> info@nobelaenterprises.co.za</a></p>
-                <p><strong>📍 Address:</strong> <a href="https://www.google.com/maps/place/57+8th+St,+La+Rochelle,+Johannesburg+South,+2190" target="_blank" class="link-primary">57 8th St, La Rochelle, Johannesburg South, 2190</a></p>
+                <p><strong>📍 Address:</strong> <a href="https://maps.app.goo.gl/KZATxmvXPTHR1KVJ6" target="_blank" class="link-primary">120 Rietfontein Rd, Primrose, Germiston, 1401</a></p>
                 <p><strong>🕒 Hours:</strong> Mon–Fri 09:00 – 17:00</p>
             </div>
         </div>

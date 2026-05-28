@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PropertyDetailsController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\PropertImgController;
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
 
 use App\Http\Controllers\ServiceRequestsController;
 use App\Http\Controllers\LogisticsDetailsController;
@@ -26,6 +28,9 @@ Route::get('/', function () {
     return view('welcome', compact('properties', 'mini', 'exclusive'));
 })->name('welcome');
 
+Route::get('/test', function () {
+    return 'Laravel is working!';
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -60,6 +65,24 @@ Route::get('/listing', [PropertyDetailsController::class, 'listing'])->name('lis
 Route::get('/our-services', [ServicesController::class, 'public'])->name('services.public');
 Route::get('/our-services/{service}/request', [ServicesController::class, 'requestForm'])->name('services.request');
 Route::post('/our-services/{service}/request', [ServicesController::class, 'requestStore'])->name('services.request.store');
+Route::get('/generate-sitemap', function () {
+    $sitemap = Sitemap::create()
+        ->add(Url::create('/')
+            ->setPriority(1.0)
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY))
+        ->add(Url::create('/about')
+            ->setPriority(0.8)
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY))
+        ->add(Url::create('/services')
+            ->setPriority(0.9)
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY))
+        ->add(Url::create('/contact')
+            ->setPriority(0.7)
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY));
 
+    $sitemap->writeToFile(public_path('sitemap.xml'));
+
+    return 'Static sitemap generated!';
+});
 
 require __DIR__.'/auth.php';

@@ -43,23 +43,26 @@ public function store(Request $request)
         'property_type' => 'required|string|max:50',
         'status' => 'required|string|max:50',
         'size' => 'nullable|numeric',
-        'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
     ]);
 
     // Save property
     $property = property_details::create($data);
 
     // Handle images
-    if ($request->hasFile('images')) {
-        foreach ($request->file('images') as $img) {
-            $filename = $img->store('properties', 'public');
+  // Handle images
+if ($request->hasFile('images')) {
+    foreach ($request->file('images') as $img) {
+        // Store file inside storage/app/public/properties
+        $filename = $img->store('properties', 'public');
 
-            // Save to propert_imgs table
-            $property->images()->create([
-                'image_path' => $filename, // 👈 use correct column name
-            ]);
-        }
+        // Save record into propert_imgs table
+        $property->images()->create([
+            'image_path' => $filename, // e.g. "properties/abc123.jpg"
+        ]);
     }
+}
+
 
     return redirect()->route('property.index')->with('success', 'Property created successfully.');
 }
@@ -124,7 +127,10 @@ public function destroy($id)
 
 public function guestShow($id)
 {
+    
+  
     $property = property_details::with('images')->findOrFail($id);
+     
     return view('guestShow', compact('property'));
 }
 

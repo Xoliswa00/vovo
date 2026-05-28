@@ -62,7 +62,7 @@
                             {{-- Image --}}
                             <a href="{{ route('Guest.show', $property->id) }}" class="d-block">
                                 @if($property->images->count())
-                                    <img src="{{ asset('storage/'.$property->images->first()->image_path) }}"
+                                    <img src="{{ asset('assets/img/'.$property->images->first()->image_path) }}"
                                         alt="{{ $property->title }}"
                                         class="img-fluid w-100"
                                         style="height: 220px; object-fit: cover;">

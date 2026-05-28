@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('propert_imgs', function (Blueprint $table) {
             $table->id();
-                $table->foreign('property_details_id')
+                $table->foreign('property_id')
                   ->references('id')
                   ->on('property_details')
                   ->onDelete('cascade');    $table->string('image_path'); // path to the image

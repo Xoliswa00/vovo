@@ -277,13 +277,12 @@
             <span class="flag premium">Premium</span>
           </div>
           <a href="{{ route('Guest.show', $property->id) }}" class="image-link">
-            <img  src="{{ asset('storage/'.$property->images->first()->image_path) }}"
-                 alt="{{ $property->title }}" class="img-fluid">
+            <img  src="{{ asset('assets/img/'.$property->images->first()->image_path) }}" alt="{{ $property->title }}" class="img-fluid">
           </a>
           <div class="quick-specs">
             <span><i class="bi bi-door-open"></i> {{ $property->bedrooms }} Beds</span>
             <span><i class="bi bi-droplet"></i> {{ $property->bathrooms }} Baths</span>
-            <span><i class="bi bi-aspect-ratio"></i> {{ number_format(rand(1500,5000)) }} sq ft</span>
+            <span><i class="bi bi-aspect-ratio"></i>  {{$property->size }}sq ft</span>
           </div>
         </div>
         <div class="content">
@@ -313,7 +312,7 @@
 <article class="mini-card" data-aos="fade-up" data-aos-delay="150">
     <a href="{{ route('Guest.show', $item->id) }}" class="thumb">
         @if($item->images->count() > 0)
-            <img src="{{ asset('storage/'.$item->images->first()->image_path) }}" 
+            <img src="{{ asset('assets/img/'.$item->images->first()->image_path) }}" 
                  alt="{{ $item->title }}" 
                  class="img-fluid" loading="lazy">
         @else
@@ -629,7 +628,7 @@
                 <div class="col-lg-4">
                     <h5 class="text-white mb-3">Get in Touch</h5>
                     <ul class="list-unstyled">
-                        <li><i class="bi bi-geo-alt me-2"></i> 57 8th St, La Rochelle, Johannesburg South, 2190</li>
+                        <li><i class="bi bi-geo-alt me-2"></i> 120 Rietfontein Rd Germiston, 1401</li>
                         <li><i class="bi bi-telephone me-2"></i>0100 2328 09</li>
           <li><i class="bi bi-envelope me-2"></i> info@nobelaenterprises.co.za</li>
                     </ul>

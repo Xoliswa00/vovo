@@ -145,7 +145,8 @@
                 <div class="col-lg-4">
                     <h5 class="text-white mb-3">Get in Touch</h5>
                     <ul class="list-unstyled">
-                        <li><i class="bi bi-geo-alt me-2"></i> 57 8th St, La Rochelle, Johannesburg South, 2190</li>
+                        <li><i class="bi bi-geo-alt me-2"></i> 120 Rietfontein Road, Germiston
+</li>
                         <li><i class="bi bi-telephone me-2"></i>0100 2328 09</li>
           <li><i class="bi bi-envelope me-2"></i> info@nobelaenterprises.co.za</li>
                     </ul>

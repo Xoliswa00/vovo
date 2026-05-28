@@ -26,28 +26,38 @@ class ServicesController extends Controller
         return view('services.create');
     }
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
+ public function store(Request $request)
+{
+    // 1️⃣ Validate input
+    $validated = $request->validate([
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
-        'images.*' => 'image|mimes:jpg,jpeg,png',
+        'images.*' => 'image|mimes:jpg,jpeg,png|max:2048', // Optional: limit size
     ]);
 
+    // 2️⃣ Create the service
     $service = Services::create($validated);
 
- if ($request->hasFile('images')) {
-    foreach ($request->file('images') as $image) {
-        $path = $image->store('services', 'public');
-        $service->images()->create([
-            'image_path' => $path,
-        ]);
+    // 3️⃣ Handle image uploads (optional)
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $image) {
+            // Generate unique filename
+            $filename = time() . '_' . $image->getClientOriginalName();
+
+            // Move to public/assets/img
+            $image->move(public_path('assets/img'), $filename);
+
+            // Save path in the database
+            $service->images()->create([
+                'image_path' => 'assets/img/' . $filename
+            ]);
+        }
     }
+
+    // 4️⃣ Redirect with success
+    return redirect()->route('services.index')->with('success', 'Service created successfully!');
 }
 
-    return redirect()->route('services.index')->with('success', 'Service created successfully!');
-
-    }
 
     /**
      * Display the specified resource.
