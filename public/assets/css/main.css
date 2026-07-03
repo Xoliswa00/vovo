@@ -14,52 +14,76 @@
 --------------------------------------------------------------*/
 /* Fonts */
 :root {
-  --default-font: "Roboto",  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --heading-font: "Raleway",  sans-serif;
-  --nav-font: "Montserrat",  sans-serif;
+  --default-font: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --heading-font: "Plus Jakarta Sans", sans-serif;
+  --nav-font: "Plus Jakarta Sans", sans-serif;
 }
 
+/* ==================================================================
+   NOBELA BRAND SYSTEM
+   Colors sampled directly from the Nobela Enterprise logo:
+   navy (skyline/N), taupe (crane hook), sky blue (forward arrow).
+   ================================================================== */
+
 /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
-:root { 
+:root {
   --background-color: #ffffff; /* Background color for the entire website, including individual sections */
-  --default-color: #323b3b; /* Default color used for the majority of the text content across the entire website */
-  --heading-color: #163535; /* Color for headings, subheadings and title throughout the website */
-  --accent-color: #2c7a7b; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
+  --default-color: #3A4759; /* Default color used for the majority of the text content across the entire website */
+  --heading-color: #0B1F3D; /* Nobela navy - color for headings, subheadings and title throughout the website */
+  --accent-color: #2E93BD; /* Nobela sky blue (darkened slightly for AA contrast on white) - buttons, links, standout elements */
+  --secondary-color: #8C7A65; /* Nobela taupe - used sparingly for industrial/craft accents */
   --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
   --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
 }
 
+/* Bootstrap's own color variables default to stock Bootstrap blue/gray.
+   Overriding them here keeps every .text-primary / .bg-primary / .btn-primary /
+   link across the site on-brand instead of fighting the template's colors. */
+:root {
+  --bs-primary: #2E93BD;
+  --bs-primary-rgb: 46, 147, 189;
+  --bs-primary-text-emphasis: #12374A;
+  --bs-primary-bg-subtle: #E3F2F8;
+  --bs-primary-border-subtle: #A9D4E6;
+  --bs-link-color: #2E93BD;
+  --bs-link-color-rgb: 46, 147, 189;
+  --bs-link-hover-color: #24799C;
+  --bs-link-hover-color-rgb: 36, 121, 156;
+  --bs-dark: #0B1F3D;
+  --bs-dark-rgb: 11, 31, 61;
+}
+
 /* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
 :root {
-  --nav-color: #323b3b;  /* The default color of the main navmenu links */
-  --nav-hover-color: #2c7a7b; /* Applied to main navmenu links when they are hovered over or active */
-  --nav-mobile-background-color: #ffffff; /* Used as the background color for mobile navigation menu */
-  --nav-dropdown-background-color: #ffffff; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
-  --nav-dropdown-color: #323b3b; /* Used for navigation links of the dropdown items in the navigation menu. */
-  --nav-dropdown-hover-color: #2c7a7b; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
+  --nav-color: #0B1F3D;
+  --nav-hover-color: #2E93BD;
+  --nav-mobile-background-color: #ffffff;
+  --nav-dropdown-background-color: #ffffff;
+  --nav-dropdown-color: #0B1F3D;
+  --nav-dropdown-hover-color: #2E93BD;
 }
 
 /* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
 
 .light-background {
-  --background-color: #eaf9f9;
+  --background-color: #F0F6FA;
   --surface-color: #ffffff;
 }
 
 .dark-background {
-  --background-color: #081b12;
-  --default-color: #ffffff;
+  --background-color: #081633;
+  --default-color: #DCE6F0;
   --heading-color: #ffffff;
-  --surface-color: #1f3028;
+  --surface-color: #112A52;
   --contrast-color: #ffffff;
 }
 
 .accent-background {
-  --background-color: #077f46;
+  --background-color: #2E93BD;
   --default-color: #ffffff;
   --heading-color: #ffffff;
   --accent-color: #ffffff;
-  --surface-color: #2a8f5f;
+  --surface-color: #3CAAD2;
   --contrast-color: #ffffff;
 }
 
@@ -69,12 +93,628 @@
 }
 
 /*--------------------------------------------------------------
-# General Styling & Shared Classes
+# UI Enhancements
 --------------------------------------------------------------*/
+:root {
+  --bg-soft: #F5F8FB;
+  --surface-soft: #ffffff;
+  --surface-strong: #F0F6FA;
+  --text-muted: #5C6B7E;
+  --text-inverse: #0B1F3D;
+  --shadow-soft: 0 18px 50px rgba(11, 31, 61, 0.09);
+  --border-soft: rgba(11, 31, 61, 0.08);
+}
+
 body {
   color: var(--default-color);
-  background-color: var(--background-color);
+  background-color: var(--bg-soft);
+  background-image: radial-gradient(circle at 10% 10%, rgba(46, 147, 189, 0.07), transparent 16%),
+                    radial-gradient(circle at 90% 85%, rgba(140, 122, 101, 0.06), transparent 22%);
   font-family: var(--default-font);
+}
+
+a {
+  color: var(--accent-color);
+}
+
+a:hover {
+  color: color-mix(in srgb, var(--accent-color), transparent 15%);
+}
+
+.text-accent {
+  color: var(--accent-color) !important;
+}
+
+.text-accent:hover {
+  color: color-mix(in srgb, var(--accent-color), transparent 15%) !important;
+}
+
+.bg-soft {
+  background-color: var(--bg-soft) !important;
+}
+
+.btn,
+.btn-primary,
+.btn-outline-primary,
+.btn-outline-light {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  min-height: 52px;
+  padding: 0 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  box-shadow: 0 14px 32px rgba(11, 31, 61, 0.12);
+}
+
+.btn:hover,
+.btn:focus {
+  transform: translateY(-1px);
+}
+
+.btn-sm {
+  min-height: 40px;
+  padding: 0 1rem;
+  font-size: 0.92rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #2E93BD 0%, #4FB4D9 100%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  box-shadow: 0 20px 45px rgba(46, 147, 189, 0.24);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background: linear-gradient(135deg, #24799C 0%, #2E93BD 100%);
+  box-shadow: 0 26px 50px rgba(46, 147, 189, 0.32);
+}
+
+.btn-outline-primary {
+  color: #0B1F3D;
+  border-color: rgba(11, 31, 61, 0.5);
+  background: rgba(11, 31, 61, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(11, 31, 61, 0.08);
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+  background: rgba(11, 31, 61, 0.14);
+  color: #0B1F3D;
+  border-color: rgba(11, 31, 61, 0.8);
+}
+
+.btn-outline-light {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.btn-outline-light:hover,
+.btn-outline-light:focus {
+  background: rgba(255, 255, 255, 0.24);
+  color: #ffffff;
+}
+
+.btn-lg {
+  min-height: 56px;
+  padding: 0 2rem;
+}
+
+.btn-primary,
+.btn-outline-primary,
+.btn-outline-light {
+  border-radius: 999px;
+}
+
+/* Marketplace and Services cards */
+.product-card,
+.service-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.product-card:hover,
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 26px 52px rgba(15, 25, 32, 0.18);
+}
+
+.product-card .product-badge,
+.service-card .product-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  background: rgba(11, 31, 61, 0.92);
+  color: #fff;
+  font-size: 0.78rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+}
+
+.product-card .card-body,
+.service-card .card-body {
+  min-height: 230px;
+}
+
+.product-card .product-footer,
+.service-card .product-footer {
+  margin-top: auto;
+}
+
+.marketplace-category-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1rem;
+  background: rgba(46, 147, 189, 0.08);
+  color: #0B1F3D;
+  border: 1px solid rgba(46, 147, 189, 0.22);
+  border-radius: 999px;
+  text-decoration: none;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.marketplace-category-pill:hover {
+  background: rgba(46, 147, 189, 0.16);
+  transform: translateY(-1px);
+}
+
+.marketplace-summary {
+  border-radius: 1.5rem;
+  padding: 1.5rem 1.75rem;
+  background: rgba(46, 147, 189, 0.08);
+  border: 1px solid rgba(46, 147, 189, 0.15);
+}
+
+.marketplace-summary h5 {
+  margin-bottom: 0.25rem;
+}
+
+.marketplace-summary p {
+  margin-bottom: 0;
+}
+
+.card {
+  border: none;
+  border-radius: 1.375rem;
+  background: var(--surface-soft);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 28px 64px rgba(15, 25, 32, 0.14);
+}
+
+.card .card-img-top {
+  transition: transform 0.35s ease;
+}
+
+.card:hover .card-img-top {
+  transform: scale(1.03);
+}
+
+.section-title {
+  text-align: center;
+  padding-bottom: 48px;
+  position: relative;
+}
+
+.section-title h2 {
+  font-size: clamp(2rem, 2.5vw, 2.8rem);
+  font-weight: 700;
+  margin-bottom: 18px;
+  padding-bottom: 18px;
+  position: relative;
+}
+
+.section-title h2::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 72px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--accent-color);
+}
+
+.section-title p {
+  margin-bottom: 0;
+  color: var(--text-muted);
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header {
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 18px 40px rgba(15, 25, 32, 0.08);
+}
+
+.navmenu a,
+.navmenu a:focus {
+  color: var(--nav-color);
+}
+
+.navmenu a:hover {
+  color: var(--nav-hover-color);
+}
+
+.hero {
+  min-height: calc(100vh - 100px);
+  padding: 5rem 0;
+}
+
+.hero.dark-background {
+  background: linear-gradient(140deg, rgba(17, 42, 82, 0.97) 0%, rgba(8, 22, 51, 0.98) 100%);
+  color: #f8fafc;
+}
+
+.hero .hero-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 2rem;
+  padding: 3rem;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.18);
+}
+
+.hero .hero-card .row {
+  align-items: center;
+}
+
+.hero h1 {
+  font-size: clamp(2.75rem, 4vw, 4.4rem);
+  line-height: 1.05;
+}
+
+.hero .lead {
+  color: rgba(248, 250, 252, 0.88);
+}
+
+.hero .hero-stat-card {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 1rem 0.75rem;
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.hero .hero-stat-card strong {
+  display: block;
+  font-size: 1.35rem;
+  color: #ffffff;
+}
+
+.hero .hero-stat-card span {
+  display: block;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.9rem;
+}
+
+.public-navbar-logo {
+  height: 40px;
+  width: auto;
+}
+
+.hero-side-card {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.75rem;
+  background: rgba(6, 16, 33, 0.55);
+}
+
+.hero-side-icon {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 1rem;
+  color: #ffffff;
+}
+
+.hero-side-card h5 {
+  color: #ffffff;
+}
+
+.hero-side-card p {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.bg-white-10 {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.feature-card {
+  min-height: 220px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  border: 1px solid rgba(15, 25, 32, 0.06);
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-soft);
+  border-color: rgba(46, 147, 189, 0.22);
+}
+
+.feature-card h5 {
+  margin-bottom: 0.75rem;
+}
+
+.feature-card i {
+  color: var(--accent-color);
+}
+
+.section-title span {
+  display: inline-block;
+  margin-bottom: 0.85rem;
+  color: var(--accent-color);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.section-title h2 {
+  font-size: clamp(2rem, 2.5vw, 2.8rem);
+  line-height: 1.1;
+}
+
+.section-title p {
+  margin-bottom: 0;
+  color: var(--text-muted);
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.service-panel {
+  border-radius: 1.75rem;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.service-panel:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-soft);
+}
+
+.service-panel .card-img-top {
+  height: 220px;
+  object-fit: cover;
+}
+
+.service-badge {
+  background: rgba(46, 147, 189, 0.14);
+  color: var(--accent-color);
+  font-weight: 700;
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+}
+
+.cta-box {
+  background: linear-gradient(135deg, rgba(11, 31, 61, 0.98), rgba(46, 147, 189, 0.92));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.cta-box p {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.homepage-product-card {
+  border-radius: 1.5rem;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: 1px solid rgba(15, 25, 32, 0.08);
+}
+
+.homepage-product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-soft);
+}
+
+.homepage-product-card .card-img-top {
+  height: 190px;
+  object-fit: cover;
+}
+
+.homepage-product-card .vendor-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+/* Stat band (sits directly under the hero) */
+.stat-band-item strong {
+  display: block;
+  font-family: var(--heading-font);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #0B1F3D;
+}
+
+.stat-band-item span {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* Bento feature tiles */
+.bento-tile {
+  height: 100%;
+  padding: 2rem;
+  border-radius: 1.375rem;
+  background: var(--surface-soft);
+  border: 1px solid var(--border-soft);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.bento-tile:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-soft);
+}
+
+.bento-tile h5 {
+  color: #0B1F3D;
+}
+
+.bento-tile p {
+  color: var(--text-muted);
+}
+
+.bento-tile-dark {
+  background: linear-gradient(135deg, #0B1F3D 0%, #14315C 100%);
+  border-color: transparent;
+  color: #fff;
+}
+
+.bento-tile-dark i {
+  color: #6FC3E4;
+}
+
+.bento-tile-dark h5,
+.bento-tile-dark p {
+  color: #fff;
+}
+
+.bento-tile-dark p {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.bento-tile-accent {
+  background: linear-gradient(135deg, #2E93BD 0%, #3CAAD2 100%);
+  border-color: transparent;
+  color: #fff;
+}
+
+.bento-tile-accent i,
+.bento-tile-accent h5,
+.bento-tile-accent p {
+  color: #fff;
+}
+
+.bento-tile-accent p {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Ratings */
+.rating-stars {
+  color: #E8A33D;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+
+.rating-stars.fs-6 {
+  font-size: 1rem;
+}
+
+.rating-count {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0B1F3D;
+}
+
+/* Stock badges */
+.stock-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+}
+
+.stock-badge .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.stock-badge.in-stock {
+  background: rgba(34, 197, 94, 0.12);
+  color: #15803d;
+}
+
+.stock-badge.in-stock .dot {
+  background: #22c55e;
+}
+
+.stock-badge.low-stock {
+  background: rgba(234, 179, 8, 0.14);
+  color: #92620a;
+}
+
+.stock-badge.low-stock .dot {
+  background: #eab308;
+}
+
+.stock-badge.out-of-stock {
+  background: rgba(239, 68, 68, 0.12);
+  color: #b91c1c;
+}
+
+.stock-badge.out-of-stock .dot {
+  background: #ef4444;
+}
+
+/* Buy box */
+.buy-box {
+  border: 1px solid var(--border-soft);
+  border-radius: 1.375rem;
+  padding: 1.75rem;
+  background: var(--surface-soft);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Gallery thumbnails */
+.gallery-thumbs {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+
+.gallery-thumbs button {
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  opacity: 0.65;
+  transition: opacity 0.2s ease, border-color 0.2s ease;
+  background: none;
+}
+
+.gallery-thumbs button img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-thumbs button.active,
+.gallery-thumbs button:hover {
+  opacity: 1;
+  border-color: var(--accent-color);
+}
+
+@media (max-width: 991px) {
+  .hero .hero-card {
+    padding: 2rem;
+  }
 }
 
 a {
@@ -200,6 +840,27 @@ h6 {
 .header .btn-getstarted:focus:hover {
   color: var(--contrast-color);
   background: color-mix(in srgb, var(--accent-color), transparent 15%);
+}
+
+.header .navmenu ul {
+  gap: 0.7rem;
+}
+
+.header .navmenu a.btn,
+.header .navmenu a.btn-getstarted {
+  padding: 0.85rem 1.25rem;
+  border-radius: 50px;
+  font-weight: 600;
+}
+
+.header .navmenu a.btn-outline-secondary {
+  color: var(--default-color);
+  border-color: rgba(33, 37, 41, 0.16);
+}
+
+.header .navmenu a.btn-outline-secondary:hover {
+  background: rgba(46, 147, 189, 0.08);
+  border-color: rgba(46, 147, 189, 0.28);
 }
 
 @media (max-width: 1200px) {
@@ -841,6 +1502,9 @@ textarea::placeholder {
   width: 44px;
   height: 44px;
   border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.4s;
 }
 
@@ -937,61 +1601,34 @@ section,
 
 /*--------------------------------------------------------------
 # Global Section Titles
+(superseded by the .section-title rules in the Nobela Brand System
+above - kept empty here so source order can't silently re-apply the
+old template's teal underline/padding)
 --------------------------------------------------------------*/
-.section-title {
-  text-align: center;
-  padding-bottom: 60px;
-  position: relative;
-}
-
-.section-title h2 {
-  font-size: 32px;
-  font-weight: 700;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  position: relative;
-}
-
-.section-title h2:before {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 160px;
-  height: 1px;
-  background: color-mix(in srgb, var(--default-color), transparent 60%);
-  left: 0;
-  right: 0;
-  bottom: 1px;
-  margin: auto;
-}
-
-.section-title h2::after {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 60px;
-  height: 3px;
-  background: var(--accent-color);
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-}
-
 .section-title p {
   margin-bottom: 0;
 }
 
 /*--------------------------------------------------------------
 # Hero Section
+(layout/background superseded by .hero / .hero.dark-background in
+the Nobela Brand System above; only unrelated legacy properties
+that don't collide are kept here)
 --------------------------------------------------------------*/
 .hero {
   position: relative;
-  background: linear-gradient(135deg, color-mix(in srgb, var(--accent-color), transparent 95%) 0%, color-mix(in srgb, var(--background-color), transparent 5%) 100%);
-  padding: 140px 0 60px;
-  min-height: 100vh;
   display: flex;
   align-items: center;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.16), transparent 28%),
+              radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.08), transparent 30%);
+  pointer-events: none;
 }
 
 @media (max-width: 1200px) {
@@ -1002,53 +1639,77 @@ section,
 
 .hero .hero-content {
   width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 .hero .hero-badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--accent-color);
-  color: var(--contrast-color);
-  padding: 8px 16px;
-  border-radius: 25px;
+  background: rgba(255,255,255,.14);
+  color: #f8fbfc;
+  padding: 10px 22px;
+  border-radius: 999px;
   font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 24px;
+  font-weight: 700;
+  margin-bottom: 28px;
+  border: 1px solid rgba(255,255,255,.18);
+  backdrop-filter: blur(10px);
 }
 
 .hero .hero-badge i {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .hero .hero-text h1 {
-  font-size: 3.5rem;
-  font-weight: 700;
+  font-size: clamp(2.75rem, 4vw, 4.5rem);
+  font-weight: 800;
   margin-bottom: 24px;
-  line-height: 1.2;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  text-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
 }
 
 @media (max-width: 768px) {
   .hero .hero-text h1 {
-    font-size: 2.5rem;
+    font-size: 2.75rem;
   }
 }
 
 .hero .hero-text p {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   margin-bottom: 40px;
-  color: color-mix(in srgb, var(--default-color), transparent 20%);
-  line-height: 1.7;
+  color: rgba(255,255,255,.82);
+  line-height: 1.8;
+  max-width: 720px;
+}
+
+.hero .hero-text .btn {
+  min-width: 220px;
+  border-radius: 999px;
+  padding: 14px 30px;
+  font-weight: 700;
+}
+
+.hero .hero-text .btn-outline-light {
+  color: #fff;
+  border-color: rgba(255,255,255,.8);
+}
+
+.hero .hero-text .btn-outline-light:hover {
+  background: rgba(255,255,255,.14);
+  border-color: rgba(255,255,255,.95);
 }
 
 .hero .search-form {
-  background: var(--surface-color);
+  background: rgba(255,255,255,0.08);
   padding: 32px;
-  border-radius: 16px;
-  box-shadow: 0 20px 40px color-mix(in srgb, var(--default-color), transparent 90%);
+  border-radius: 24px;
+  box-shadow: 0 24px 54px rgba(0,0,0,.16);
   margin-bottom: 40px;
-  backdrop-filter: blur(10px);
-  border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.12);
 }
 
 .hero .search-form .form-floating .form-control,

@@ -1,2 +1,4 @@
 User-agent: *
 Disallow:
+
+Sitemap: https://nobelaenterprises.co.za/sitemap.xml

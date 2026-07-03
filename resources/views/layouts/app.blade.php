@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -19,7 +19,7 @@
 <link rel="manifest" href="/site.webmanifest">
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700&family=Raleway:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/apple-touch-icon.png') }}">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon-180x180.png">
 <link rel="apple-touch-icon" sizes="167x167" href="assets/img/apple-touch-icon-167x167.png">
@@ -41,7 +41,6 @@
     <!-- Vendor CSS Files -->
              @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/aos/aos.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
@@ -79,7 +78,7 @@
 
 
     <!-- Scroll Top -->
-    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+    <a href="#" id="scroll-top" class="scroll-top" aria-label="Scroll to top">
         <i class="bi bi-arrow-up-short"></i>
     </a>
 
@@ -87,7 +86,6 @@
     <div id="preloader"></div>
 
     <!-- Vendor JS Files -->
-    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
     <script src="{{ asset('assets/vendor/aos/aos.js') }}"></script>
     <script src="{{ asset('assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
@@ -99,5 +97,30 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
     @stack('scripts')
-</body>
+
+    {{-- Xquisite Monitoring – JS error beacon --}}
+    <script>
+    (function () {
+        var endpoint = 'https://xquisite.brightfinance-x.co.za/js-error';
+        var project  = '{{ addslashes(config("app.name")) }}';
+        window.addEventListener('error', function (e) {
+            try {
+                fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: e.message || 'Unknown error',
+                        source:  e.filename  || null,
+                        line:    e.lineno    || null,
+                        col:     e.colno     || null,
+                        stack:   e.error ? e.error.stack : null,
+                        url:     window.location.href,
+                        project: project
+                    }),
+                    keepalive: true
+                });
+            } catch (_) {}
+        });
+    })();
+    </script></body>
 </html>

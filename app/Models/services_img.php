@@ -13,6 +13,6 @@ class services_img extends Model
 
     public function service()
     {
-        return $this->belongsTo(Services::class);
+        return $this->belongsTo(Service::class, 'services_id');
     }
 }

@@ -33,6 +33,7 @@
                                 @endforeach
                             </select>
                         </div>
+                        @if(auth()->user()->isAdmin())
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Vendor</label>
                             <select name="vendor_id" class="mt-1 w-full border-gray-300 rounded-md shadow-sm">
@@ -42,6 +43,12 @@
                                 @endforeach
                             </select>
                         </div>
+                        @else
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Vendor</label>
+                            <p class="mt-1 text-sm text-gray-500 py-2">{{ auth()->user()->vendor?->business_name ?? 'Your vendor profile' }}</p>
+                        </div>
+                        @endif
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Status *</label>
                             <select name="status" required class="mt-1 w-full border-gray-300 rounded-md shadow-sm">

@@ -5,21 +5,32 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Shipment;
 use App\Models\QuoteRequest;
-use App\Models\services;
+use App\Models\Service;
 use App\Models\Product;
 use App\Models\Vehicle;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        // The dashboard shows platform-wide business metrics (all orders,
+        // all shipments, etc.) — only admins should see it. Vendors are
+        // sent to their own catalog instead of a scoped analytics view,
+        // since that doesn't exist yet.
+        if (! $request->user()->isAdmin()) {
+            return $request->user()->isVendor()
+                ? redirect()->route('products.index')
+                : redirect()->route('welcome');
+        }
+
         $stats = [
             'pending_orders'     => Order::where('status', 'pending')->count(),
             'active_shipments'   => Shipment::whereIn('status', ['assigned', 'in_transit'])->count(),
             'pending_quotes'     => QuoteRequest::where('status', 'pending')->count(),
-            'total_services'     => services::count(),
+            'total_services'     => Service::count(),
             'total_products'     => Product::count(),
             'available_vehicles' => Vehicle::where('status', 'available')->count(),
         ];
@@ -57,8 +68,12 @@ class DashboardController extends Controller
 
     public function welcome()
     {
-        $featuredServices = services::where('status', true)->with('images', 'category')->latest()->take(6)->get();
-        $featuredProducts = Product::where('status', 'active')->with('images', 'category')->latest()->take(8)->get();
+        $featuredServices = Service::where('status', true)->with('images', 'category')
+            ->withCount('reviews')->withAvg('reviews as reviews_avg_rating', 'rating')
+            ->latest()->take(6)->get();
+        $featuredProducts = Product::where('status', 'active')->with('images', 'category')
+            ->withCount('reviews')->withAvg('reviews as reviews_avg_rating', 'rating')
+            ->latest()->take(8)->get();
 
         return view('welcome', compact('featuredServices', 'featuredProducts'));
     }

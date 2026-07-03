@@ -1,150 +1,159 @@
 @extends('layouts.public')
 
 @section('title', $product->title . ' — Nobela Marketplace')
+@section('meta_description', \Illuminate\Support\Str::limit($product->description ?: $product->title . ', available from ' . ($product->vendor?->business_name ?? 'a trusted vendor') . ' on the Nobela marketplace.', 155))
 
 @section('content')
-<section class="py-5">
-    <div class="container">
-        <nav aria-label="breadcrumb" class="mb-4">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('marketplace.index') }}">Marketplace</a></li>
-                @if($product->category)<li class="breadcrumb-item"><a href="{{ route('marketplace.index', ['category'=>$product->category->slug]) }}">{{ $product->category->name }}</a></li>@endif
-                <li class="breadcrumb-item active">{{ $product->title }}</li>
-            </ol>
+<section class="py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav aria-label="breadcrumb" class="mb-6 text-sm text-muted">
+            <a href="{{ route('marketplace.index') }}" class="hover:text-accent">Marketplace</a>
+            @if($product->category)<span class="mx-1">/</span><a href="{{ route('marketplace.index', ['category'=>$product->category->slug]) }}" class="hover:text-accent">{{ $product->category->name }}</a>@endif
+            <span class="mx-1">/</span><span class="text-navy font-medium">{{ $product->title }}</span>
         </nav>
 
-        <div class="row g-5">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
             {{-- Images --}}
-            <div class="col-lg-6">
+            <div>
                 @if($product->images->count())
-                    <div id="productCarousel" class="carousel slide shadow rounded" data-bs-ride="carousel">
-                        <div class="carousel-inner rounded">
+                    <div x-data="{ active: 0 }">
+                        <div class="rounded-2xl overflow-hidden shadow-lg relative bg-slate-100">
                             @foreach($product->images as $i => $img)
-                            <div class="carousel-item {{ $i === 0 ? 'active' : '' }}">
-                                <img src="{{ asset($img->image_path) }}" class="d-block w-100" style="height:400px;object-fit:cover" alt="{{ $product->title }}">
-                            </div>
+                                <img x-show="active === {{ $i }}" src="{{ asset($img->image_path) }}" class="w-full h-[420px] object-cover" alt="{{ $product->title }}">
                             @endforeach
+                            @if($product->images->count() > 1)
+                                <button type="button" @click="active = active === 0 ? {{ $product->images->count() - 1 }} : active - 1" class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 shadow flex items-center justify-center hover:bg-white" aria-label="Previous image">
+                                    <i class="bi bi-chevron-left"></i>
+                                </button>
+                                <button type="button" @click="active = active === {{ $product->images->count() - 1 }} ? 0 : active + 1" class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 shadow flex items-center justify-center hover:bg-white" aria-label="Next image">
+                                    <i class="bi bi-chevron-right"></i>
+                                </button>
+                            @endif
                         </div>
                         @if($product->images->count() > 1)
-                            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+                            <div class="gallery-thumbs">
+                                @foreach($product->images as $i => $img)
+                                    <button type="button" @click="active = {{ $i }}" :class="active === {{ $i }} ? 'active' : ''" aria-label="View image {{ $i + 1 }}">
+                                        <img src="{{ asset($img->image_path) }}" alt="">
+                                    </button>
+                                @endforeach
+                            </div>
                         @endif
                     </div>
                 @else
-                    <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height:400px">
-                        <i class="bi bi-box-seam fs-1 text-muted"></i>
+                    <div class="rounded-2xl bg-slate-100 flex items-center justify-center h-[420px]">
+                        <i class="bi bi-box-seam text-5xl text-muted"></i>
                     </div>
                 @endif
             </div>
 
-            {{-- Info & Order --}}
-            <div class="col-lg-6">
-                @if($product->category)<span class="badge bg-primary mb-2">{{ $product->category->name }}</span>@endif
-                <h1 class="fw-bold">{{ $product->title }}</h1>
-                @if($product->vendor)<p class="text-muted"><i class="bi bi-shop me-1"></i>Sold by <strong>{{ $product->vendor->business_name }}</strong></p>@endif
+            {{-- Info & Buy Box --}}
+            <div>
+                @if($product->category)<span class="badge-brand bg-accent text-white mb-2">{{ $product->category->name }}</span>@endif
+                <h1 class="text-2xl font-bold font-heading text-navy mb-2">{{ $product->title }}</h1>
+                <x-public.rating-stars :rating="$product->reviews_avg_rating ?? 0" :count="$product->reviews_count ?? 0" size="fs-6" class="mb-2" />
+                @if($product->vendor)<p class="text-muted mb-3"><i class="bi bi-shop me-1"></i>Sold by <strong class="text-navy">{{ $product->vendor->business_name }}</strong></p>@endif
 
-                <h2 class="text-primary fw-bold my-3">R {{ number_format($product->price, 2) }}</h2>
+                @if($product->description)<p class="text-muted">{{ $product->description }}</p>@endif
 
-                <p class="text-muted">Stock: <strong>{{ $product->stock > 0 ? $product->stock . ' available' : 'Out of stock' }}</strong></p>
-
-                @if($product->description)<p>{{ $product->description }}</p>@endif
-
-                @if($product->stock > 0)
-                <hr>
-                <h5 class="fw-bold">Place Order</h5>
-                <form method="POST" action="{{ route('marketplace.order', $product) }}" class="mt-3">
-                    @csrf
-                    @if(session('success'))<div class="alert alert-success">{{ session('success') }}</div>@endif
-                    <div class="row g-2">
-                        <div class="col-md-6">
-                            <input type="text" name="client_name" value="{{ old('client_name') }}" class="form-control @error('client_name') is-invalid @enderror" placeholder="Your name *" required>
-                            @error('client_name')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                        </div>
-                        <div class="col-md-6">
-                            <input type="email" name="client_email" value="{{ old('client_email') }}" class="form-control @error('client_email') is-invalid @enderror" placeholder="Email *" required>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" name="client_phone" value="{{ old('client_phone') }}" class="form-control" placeholder="Phone">
-                        </div>
-                        <div class="col-md-6">
-                            <input type="number" name="quantity" value="{{ old('quantity', 1) }}" class="form-control" min="1" max="{{ $product->stock }}" placeholder="Qty" required>
-                        </div>
-                        <div class="col-12">
-                            <textarea name="notes" class="form-control" placeholder="Any special instructions?" rows="2">{{ old('notes') }}</textarea>
-                        </div>
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary px-5">Order Now</button>
-                        </div>
+                <div class="buy-box mt-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-2xl font-bold font-heading text-accent">R {{ number_format($product->price, 2) }}</h2>
+                        @if($product->stock > 0)
+                            <span class="stock-badge {{ $product->stock <= 5 ? 'low-stock' : 'in-stock' }}"><span class="dot"></span>{{ $product->stock <= 5 ? 'Only ' . $product->stock . ' left' : 'In stock' }}</span>
+                        @else
+                            <span class="stock-badge out-of-stock"><span class="dot"></span>Out of stock</span>
+                        @endif
                     </div>
-                </form>
-                @endif
+
+                    @if($product->stock > 0)
+                    <h6 class="font-bold font-heading text-navy mb-3">Place your order</h6>
+                    <form method="POST" action="{{ route('marketplace.order', $product) }}" class="space-y-3">
+                        @csrf
+                        @if(session('success'))<div class="alert-success-brand">{{ session('success') }}</div>@endif
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <input type="text" name="client_name" value="{{ old('client_name') }}" class="field-brand @error('client_name') field-brand-error @enderror" placeholder="Your name *" required>
+                                @error('client_name')<p class="text-red-600 text-xs mt-1">{{ $message }}</p>@enderror
+                            </div>
+                            <div>
+                                <input type="email" name="client_email" value="{{ old('client_email') }}" class="field-brand @error('client_email') field-brand-error @enderror" placeholder="Email *" required>
+                            </div>
+                            <div>
+                                <input type="text" name="client_phone" value="{{ old('client_phone') }}" class="field-brand" placeholder="Phone">
+                            </div>
+                            <div>
+                                <input type="number" name="quantity" value="{{ old('quantity', 1) }}" class="field-brand" min="1" max="{{ $product->stock }}" placeholder="Qty" required>
+                            </div>
+                            <div class="md:col-span-2">
+                                <textarea name="notes" class="field-brand" placeholder="Any special instructions?" rows="2">{{ old('notes') }}</textarea>
+                            </div>
+                            <div class="md:col-span-2">
+                                <button type="submit" class="btn-brand-primary w-full">Order Now</button>
+                            </div>
+                        </div>
+                    </form>
+                    @else
+                        <p class="text-muted mb-0">This product is currently out of stock. Check back soon or browse similar products below.</p>
+                    @endif
+                </div>
             </div>
         </div>
 
         {{-- Reviews --}}
-        <div class="row mt-5">
-            <div class="col-lg-8">
-                <h4 class="fw-bold mb-4">Reviews ({{ $product->reviews->count() }})</h4>
+        <div class="mt-16">
+            <div class="lg:w-2/3">
+                <div class="flex items-center gap-3 mb-6">
+                    <h4 class="text-xl font-bold font-heading text-navy">Reviews</h4>
+                    <x-public.rating-stars :rating="$product->reviews_avg_rating ?? 0" :count="$product->reviews_count ?? 0" />
+                </div>
                 @forelse($product->reviews as $review)
-                <div class="card border-0 shadow-sm mb-3">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between mb-1">
-                            <strong>{{ $review->reviewer_name }}</strong>
-                            <span class="text-warning">{{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5-$review->rating) }}</span>
-                        </div>
-                        @if($review->comment)<p class="mb-0 text-muted">{{ $review->comment }}</p>@endif
+                <div class="card-brand p-5 mb-3">
+                    <div class="flex justify-between mb-1">
+                        <strong class="text-navy">{{ $review->reviewer_name }}</strong>
+                        <span class="text-amber-500">{{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5-$review->rating) }}</span>
                     </div>
+                    @if($review->comment)<p class="text-muted text-sm mb-0">{{ $review->comment }}</p>@endif
                 </div>
                 @empty
                 <p class="text-muted">No reviews yet. Be the first!</p>
                 @endforelse
 
-                <div class="card border-0 shadow-sm mt-4">
-                    <div class="card-body">
-                        <h5 class="fw-bold mb-3">Leave a Review</h5>
-                        @if(session('success'))<div class="alert alert-success">{{ session('success') }}</div>@endif
-                        <form method="POST" action="{{ route('reviews.store', ['type'=>'product','id'=>$product->id]) }}">
-                            @csrf
-                            <div class="row g-2">
-                                <div class="col-md-6">
-                                    <input type="text" name="reviewer_name" value="{{ old('reviewer_name') }}" class="form-control" placeholder="Your name *" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="email" name="reviewer_email" value="{{ old('reviewer_email') }}" class="form-control" placeholder="Email *" required>
-                                </div>
-                                <div class="col-12">
-                                    <select name="rating" class="form-select" required>
-                                        <option value="">— Select Rating —</option>
-                                        @for($i=5;$i>=1;$i--)<option value="{{ $i }}">{{ $i }} Stars</option>@endfor
-                                    </select>
-                                </div>
-                                <div class="col-12">
-                                    <textarea name="comment" class="form-control" placeholder="Your review..." rows="3">{{ old('comment') }}</textarea>
-                                </div>
-                                <div class="col-12"><button type="submit" class="btn btn-outline-primary">Submit Review</button></div>
-                            </div>
-                        </form>
-                    </div>
+                <div class="card-brand p-5 mt-4">
+                    <h5 class="font-bold font-heading text-navy mb-3">Leave a Review</h5>
+                    @if(session('success'))<div class="alert-success-brand mb-3">{{ session('success') }}</div>@endif
+                    <form method="POST" action="{{ route('reviews.store', ['type'=>'product','id'=>$product->id]) }}" class="space-y-3">
+                        @csrf
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <input type="text" name="reviewer_name" value="{{ old('reviewer_name') }}" class="field-brand" placeholder="Your name *" required>
+                            <input type="email" name="reviewer_email" value="{{ old('reviewer_email') }}" class="field-brand" placeholder="Email *" required>
+                        </div>
+                        <select name="rating" class="field-brand" required>
+                            <option value="">Select rating</option>
+                            @for($i=5;$i>=1;$i--)<option value="{{ $i }}">{{ $i }} Stars</option>@endfor
+                        </select>
+                        <textarea name="comment" class="field-brand" placeholder="Your review..." rows="3">{{ old('comment') }}</textarea>
+                        <button type="submit" class="btn-brand-outline">Submit Review</button>
+                    </form>
                 </div>
             </div>
         </div>
 
         {{-- Related Products --}}
         @if($related->count())
-        <div class="mt-5">
-            <h4 class="fw-bold mb-4">Related Products</h4>
-            <div class="row g-4">
+        <div class="mt-16">
+            <h4 class="text-xl font-bold font-heading text-navy mb-6">Related Products</h4>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                 @foreach($related as $rel)
-                <div class="col-6 col-md-3">
-                    <div class="card h-100 border-0 shadow-sm">
-                        @if($rel->images->count())
-                            <img src="{{ asset($rel->images->first()->image_path) }}" class="card-img-top" style="height:150px;object-fit:cover" alt="{{ $rel->title }}">
-                        @endif
-                        <div class="card-body p-2">
-                            <h6 class="card-title small">{{ Str::limit($rel->title, 40) }}</h6>
-                            <p class="fw-bold text-primary small mb-1">R {{ number_format($rel->price,2) }}</p>
-                            <a href="{{ route('marketplace.show', $rel) }}" class="btn btn-sm btn-outline-primary w-100">View</a>
-                        </div>
+                <div class="card-brand h-full">
+                    @if($rel->images->count())
+                        <img src="{{ asset($rel->images->first()->image_path) }}" class="w-full h-36 object-cover" alt="{{ $rel->title }}">
+                    @endif
+                    <div class="p-3">
+                        <h6 class="text-sm font-semibold text-navy mb-1">{{ Str::limit($rel->title, 40) }}</h6>
+                        <x-public.rating-stars :rating="$rel->reviews_avg_rating ?? 0" :count="$rel->reviews_count ?? 0" class="mb-1" />
+                        <p class="font-bold text-accent text-sm mb-2">R {{ number_format($rel->price,2) }}</p>
+                        <a href="{{ route('marketplace.show', $rel) }}" class="btn-brand-outline btn-brand-sm w-full">View</a>
                     </div>
                 </div>
                 @endforeach

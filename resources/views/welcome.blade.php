@@ -6,82 +6,97 @@
 @section('content')
 
 {{-- Hero --}}
-<section id="hero" class="hero section dark-background">
-    <div class="container d-flex flex-column align-items-center text-center py-5">
-        <div data-aos="fade-up" data-aos-delay="100">
-            <h1 class="display-4 fw-bold text-white mb-3">Logistics & Marketplace Solutions</h1>
-            <p class="lead text-white-50 mb-4">Fast freight, reliable shipments, and a marketplace for industrial services and products — all in one place.</p>
-            <div class="d-flex justify-content-center gap-3 flex-wrap">
-                <a href="{{ route('quote.create') }}" class="btn btn-primary btn-lg px-4">Get a Logistics Quote</a>
-                <a href="{{ route('marketplace.index') }}" class="btn btn-outline-light btn-lg px-4">Browse Marketplace</a>
+<x-public.hero />
+
+{{-- Stat band --}}
+<section class="py-6 border-y border-slate-100" style="background: var(--surface-strong);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-3 gap-4 text-center">
+            <div class="stat-band-item">
+                <strong>24/7</strong>
+                <span>Support</span>
+            </div>
+            <div class="stat-band-item">
+                <strong>250+</strong>
+                <span>Verified vendors</span>
+            </div>
+            <div class="stat-band-item">
+                <strong>99.8%</strong>
+                <span>On-time delivery</span>
             </div>
         </div>
     </div>
 </section>
 
-{{-- Features Strip --}}
-<section class="py-4 bg-primary text-white">
-    <div class="container">
-        <div class="row text-center gy-3">
-            <div class="col-md-3"><i class="bi bi-truck me-2"></i> Real-time Shipment Tracking</div>
-            <div class="col-md-3"><i class="bi bi-shield-check me-2"></i> Insured Cargo</div>
-            <div class="col-md-3"><i class="bi bi-shop me-2"></i> Trusted Marketplace</div>
-            <div class="col-md-3"><i class="bi bi-headset me-2"></i> 24/7 Support</div>
+{{-- Why businesses trust Nobela: bento --}}
+<section class="py-16 bg-soft">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="section-title text-center mb-12">
+            <h2>Why businesses trust Nobela</h2>
+            <p>From freight logistics to verified marketplace goods, we deliver consistency, speed, and transparency.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bento-tile bento-tile-dark lg:col-span-2">
+                <i class="bi bi-shop text-3xl mb-3"></i>
+                <h5 class="mb-2">A marketplace you can actually verify</h5>
+                <p class="mb-0">Every vendor is checked before their catalog goes live, so what you see is who you're buying from.</p>
+            </div>
+            <div class="bento-tile">
+                <i class="bi bi-truck text-3xl text-accent mb-3"></i>
+                <h5 class="mb-2">Real-time tracking</h5>
+                <p class="mb-0">See every shipment milestone from pickup to delivery.</p>
+            </div>
+            <div class="bento-tile bento-tile-accent">
+                <i class="bi bi-shield-check text-3xl mb-3"></i>
+                <h5 class="mb-2">Insured cargo</h5>
+                <p class="mb-0">Your goods are protected on every shipment we handle.</p>
+            </div>
+            <div class="bento-tile lg:col-span-2">
+                <i class="bi bi-geo-alt text-3xl text-accent mb-3"></i>
+                <h5 class="mb-2">Coverage across South Africa</h5>
+                <p class="mb-0">A growing fleet and partner network, not a single depot pretending otherwise.</p>
+            </div>
+            <div class="bento-tile lg:col-span-2">
+                <i class="bi bi-clock-history text-3xl text-accent mb-3"></i>
+                <h5 class="mb-2">On-time, and we tell you if we won't be</h5>
+                <p class="mb-0">Clear status updates from booking to delivery, no guessing where your shipment is.</p>
+            </div>
         </div>
     </div>
 </section>
 
 {{-- Featured Services --}}
 @if($featuredServices->count())
-<section class="py-5" id="services">
-    <div class="container" data-aos="fade-up">
-        <div class="section-title text-center mb-5">
-            <h2>Our Services</h2>
-            <p>Professional industrial and logistics services tailored to your needs.</p>
+<section class="py-16" id="services">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
+        <div class="section-title text-center mb-12">
+            <h2>Featured services for your business</h2>
+            <p>Explore specialised logistics and industrial services built around reliability and speed.</p>
         </div>
-        <div class="row g-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($featuredServices as $service)
-            <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="{{ $loop->index * 100 }}">
-                <div class="card h-100 shadow-sm border-0">
-                    @if($service->images->count())
-                        <img src="{{ asset($service->images->first()->image_path) }}" class="card-img-top" style="height:200px;object-fit:cover" alt="{{ $service->title }}">
-                    @else
-                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height:200px">
-                            <i class="bi bi-gear fs-1 text-muted"></i>
-                        </div>
-                    @endif
-                    <div class="card-body d-flex flex-column">
-                        @if($service->category)
-                            <span class="badge bg-primary mb-2 align-self-start">{{ $service->category->name }}</span>
-                        @endif
-                        <h5 class="card-title">{{ $service->title }}</h5>
-                        <p class="card-text text-muted flex-grow-1">{{ Str::limit($service->description, 100) }}</p>
-                        @if($service->price)
-                            <p class="fw-bold text-primary mb-2">R {{ number_format($service->price, 2) }}</p>
-                        @endif
-                        <a href="{{ route('services.show.public', $service) }}" class="btn btn-outline-primary btn-sm mt-auto">View Service</a>
-                    </div>
-                </div>
-            </div>
+                <x-public.service-card :service="$service" data-aos-delay="{{ $loop->index * 100 }}" />
             @endforeach
         </div>
-        <div class="text-center mt-4">
-            <a href="{{ route('services.public') }}" class="btn btn-primary px-5">All Services</a>
+        <div class="text-center mt-8">
+            <a href="{{ route('services.public') }}" class="btn-brand-primary">Explore all services</a>
         </div>
     </div>
 </section>
 @endif
 
 {{-- Logistics CTA --}}
-<section class="py-5 bg-dark text-white">
-    <div class="container" data-aos="fade-up">
-        <div class="row align-items-center">
-            <div class="col-lg-8">
-                <h2 class="fw-bold mb-2">Need Freight or Logistics?</h2>
-                <p class="text-white-50 mb-0">Get a quote in minutes. We handle everything from small deliveries to heavy freight across South Africa.</p>
-            </div>
-            <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
-                <a href="{{ route('quote.create') }}" class="btn btn-primary btn-lg px-5">Request a Quote</a>
+<section class="py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
+        <div class="cta-box rounded-3xl shadow-xl text-white overflow-hidden p-8 lg:p-12">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <div class="lg:col-span-8">
+                    <h2 class="text-2xl font-bold font-heading mb-3">Need freight or logistics support?</h2>
+                    <p class="text-white/75">Get a quote in minutes. We handle everything from small deliveries to heavy freight across South Africa, with end-to-end visibility.</p>
+                </div>
+                <div class="lg:col-span-4 lg:text-right">
+                    <a href="{{ route('quote.create') }}" class="inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-bold uppercase tracking-wide bg-white text-navy hover:-translate-y-0.5 transition-transform">Request a Quote</a>
+                </div>
             </div>
         </div>
     </div>
@@ -89,63 +104,22 @@
 
 {{-- Marketplace Products --}}
 @if($featuredProducts->count())
-<section class="py-5" id="marketplace">
-    <div class="container" data-aos="fade-up">
-        <div class="section-title text-center mb-5">
-            <h2>Marketplace</h2>
-            <p>Browse industrial products and equipment from trusted vendors.</p>
+<section class="py-16" id="marketplace">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
+        <div class="section-title text-center mb-12">
+            <h2>Marketplace highlights</h2>
+            <p>Browse industrial products and equipment from trusted vendors, ready for your next project.</p>
         </div>
-        <div class="row g-4">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @foreach($featuredProducts as $product)
-            <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}">
-                <div class="card h-100 shadow-sm border-0">
-                    @if($product->images->count())
-                        <img src="{{ asset($product->images->first()->image_path) }}" class="card-img-top" style="height:180px;object-fit:cover" alt="{{ $product->title }}">
-                    @else
-                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height:180px">
-                            <i class="bi bi-box-seam fs-1 text-muted"></i>
-                        </div>
-                    @endif
-                    <div class="card-body d-flex flex-column p-3">
-                        <h6 class="card-title mb-1">{{ Str::limit($product->title, 50) }}</h6>
-                        <p class="fw-bold text-primary mb-2 mt-auto">R {{ number_format($product->price, 2) }}</p>
-                        <a href="{{ route('marketplace.show', $product) }}" class="btn btn-sm btn-outline-primary">View</a>
-                    </div>
-                </div>
-            </div>
+                <x-public.product-card :product="$product" data-aos-delay="{{ $loop->index * 50 }}" />
             @endforeach
         </div>
-        <div class="text-center mt-4">
-            <a href="{{ route('marketplace.index') }}" class="btn btn-primary px-5">Browse All Products</a>
+        <div class="text-center mt-8">
+            <a href="{{ route('marketplace.index') }}" class="btn-brand-primary">Browse All Products</a>
         </div>
     </div>
 </section>
 @endif
-
-{{-- Why Us --}}
-<section class="py-5 bg-light">
-    <div class="container" data-aos="fade-up">
-        <div class="section-title text-center mb-5">
-            <h2>Why Choose Nobela</h2>
-        </div>
-        <div class="row g-4 text-center">
-            <div class="col-md-4">
-                <i class="bi bi-geo-alt-fill fs-1 text-primary mb-3"></i>
-                <h5>Wide Coverage</h5>
-                <p class="text-muted">We operate across South Africa with a growing fleet and partner network.</p>
-            </div>
-            <div class="col-md-4">
-                <i class="bi bi-clock-history fs-1 text-primary mb-3"></i>
-                <h5>On-Time Delivery</h5>
-                <p class="text-muted">We understand deadlines. Our tracking keeps you informed every step of the way.</p>
-            </div>
-            <div class="col-md-4">
-                <i class="bi bi-patch-check-fill fs-1 text-primary mb-3"></i>
-                <h5>Trusted Vendors</h5>
-                <p class="text-muted">Every marketplace vendor is verified to ensure quality and reliability.</p>
-            </div>
-        </div>
-    </div>
-</section>
 
 @endsection

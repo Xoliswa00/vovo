@@ -25,6 +25,7 @@
                                 @endforeach
                             </select>
                         </div>
+                        @if(auth()->user()->isAdmin())
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Vendor</label>
                             <select name="vendor_id" class="mt-1 w-full border-gray-300 rounded-md shadow-sm">
@@ -34,6 +35,12 @@
                                 @endforeach
                             </select>
                         </div>
+                        @else
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Vendor</label>
+                            <p class="mt-1 text-sm text-gray-500 py-2">{{ auth()->user()->vendor?->business_name ?? 'Your vendor profile' }}</p>
+                        </div>
+                        @endif
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Price (R)</label>
                             <input type="number" name="price" step="0.01" value="{{ old('price', $service->price ?? '') }}" min="0" class="mt-1 w-full border-gray-300 rounded-md shadow-sm" placeholder="Leave blank if quote-based">

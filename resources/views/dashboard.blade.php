@@ -86,12 +86,12 @@
 
                 @php
                 $statCards = [
-                    ['label' => 'Pending Orders',    'value' => $stats['pending_orders'],     'color' => 'yellow',  'icon' => '📦', 'route' => route('orders.index', ['status'=>'pending'])],
-                    ['label' => 'Active Shipments',  'value' => $stats['active_shipments'],   'color' => 'blue',    'icon' => '🚛', 'route' => route('shipments.index')],
-                    ['label' => 'Pending Quotes',    'value' => $stats['pending_quotes'],     'color' => 'orange',  'icon' => '📋', 'route' => route('quote-requests.index', ['status'=>'pending'])],
-                    ['label' => 'Services',          'value' => $stats['total_services'],     'color' => 'indigo',  'icon' => '⚙️', 'route' => route('services.index')],
-                    ['label' => 'Products',          'value' => $stats['total_products'],     'color' => 'purple',  'icon' => '🛒', 'route' => route('products.index')],
-                    ['label' => 'Vehicles Ready',    'value' => $stats['available_vehicles'], 'color' => 'green',   'icon' => '🚗', 'route' => route('vehicles.index')],
+                    ['label' => 'Pending Orders',    'value' => $stats['pending_orders'],     'color' => 'yellow',  'icon' => 'receipt-cutoff', 'route' => route('orders.index', ['status'=>'pending'])],
+                    ['label' => 'Active Shipments',  'value' => $stats['active_shipments'],   'color' => 'blue',    'icon' => 'truck', 'route' => route('shipments.index')],
+                    ['label' => 'Pending Quotes',    'value' => $stats['pending_quotes'],     'color' => 'orange',  'icon' => 'clipboard-check', 'route' => route('quote-requests.index', ['status'=>'pending'])],
+                    ['label' => 'Services',          'value' => $stats['total_services'],     'color' => 'indigo',  'icon' => 'gear', 'route' => route('services.index')],
+                    ['label' => 'Products',          'value' => $stats['total_products'],     'color' => 'purple',  'icon' => 'cart3', 'route' => route('products.index')],
+                    ['label' => 'Vehicles Ready',    'value' => $stats['available_vehicles'], 'color' => 'green',   'icon' => 'car-front', 'route' => route('vehicles.index')],
                 ];
                 $colorMap = [
                     'yellow' => 'bg-yellow-50 border-yellow-200 text-yellow-700',
@@ -106,7 +106,7 @@
                 @foreach($statCards as $card)
                 <a href="{{ $card['route'] }}"
                    class="group border rounded-xl p-4 text-center hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 {{ $colorMap[$card['color']] }}">
-                    <div class="text-2xl mb-1">{{ $card['icon'] }}</div>
+                    <div class="text-2xl mb-1"><i class="bi bi-{{ $card['icon'] }}"></i></div>
                     <div class="text-3xl font-extrabold">{{ $card['value'] }}</div>
                     <div class="text-xs font-medium mt-1 opacity-80">{{ $card['label'] }}</div>
                 </a>
@@ -161,7 +161,7 @@
                         </a>
                         @empty
                         <div class="px-6 py-10 text-center">
-                            <p class="text-3xl mb-2">📭</p>
+                            <p class="text-3xl mb-2 text-gray-300"><i class="bi bi-inbox"></i></p>
                             <p class="text-sm text-gray-400">No orders yet</p>
                         </div>
                         @endforelse
@@ -185,7 +185,7 @@
                         </a>
                         @empty
                         <div class="px-6 py-10 text-center">
-                            <p class="text-3xl mb-2">🚛</p>
+                            <p class="text-3xl mb-2 text-gray-300"><i class="bi bi-truck"></i></p>
                             <p class="text-sm text-gray-400">No shipments yet</p>
                         </div>
                         @endforelse

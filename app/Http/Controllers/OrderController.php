@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
-use App\Models\services;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -76,11 +76,11 @@ class OrderController extends Controller
 
         $product->decrement('stock', $quantity);
 
-        return redirect()->route('orders.track', $order)->with('success', 'Order placed successfully!');
+        return redirect()->route('orders.track', ['order' => $order->order_number])->with('success', 'Order placed successfully!');
     }
 
     // Guest: place service order
-    public function storeServiceOrder(Request $request, services $service)
+    public function storeServiceOrder(Request $request, Service $service)
     {
         $validated = $request->validate([
             'client_name'  => 'required|string|max:255',
@@ -100,13 +100,13 @@ class OrderController extends Controller
         ]);
 
         $order->items()->create([
-            'orderable_type' => services::class,
+            'orderable_type' => Service::class,
             'orderable_id'   => $service->id,
             'quantity'       => 1,
             'unit_price'     => $service->price ?? 0,
         ]);
 
-        return redirect()->route('orders.track', $order)->with('success', 'Service request submitted!');
+        return redirect()->route('orders.track', ['order' => $order->order_number])->with('success', 'Service request submitted!');
     }
 
     // Guest: track order by order_number
@@ -114,5 +114,26 @@ class OrderController extends Controller
     {
         $order->load('items', 'shipment.vehicle');
         return view('orders.track', compact('order'));
+    }
+
+    // Guest: order tracking lookup form
+    public function trackLookup()
+    {
+        return view('orders.track-lookup');
+    }
+
+    public function trackLookupSubmit(Request $request)
+    {
+        $validated = $request->validate([
+            'order_number' => 'required|string',
+        ]);
+
+        $order = Order::where('order_number', trim($validated['order_number']))->first();
+
+        if (! $order) {
+            return back()->withInput()->withErrors(['order_number' => 'We couldn\'t find an order with that number. Double-check it and try again.']);
+        }
+
+        return redirect()->route('orders.track', ['order' => $order->order_number]);
     }
 }
