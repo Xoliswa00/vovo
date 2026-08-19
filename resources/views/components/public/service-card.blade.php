@@ -9,13 +9,12 @@
                 <i class="bi bi-gear text-4xl text-muted"></i>
             </div>
         @endif
-
-        <span class="service-badge absolute top-3 left-3">
-            {{ $service->category?->name ?? 'Service' }}
-        </span>
     </div>
 
     <div class="flex flex-col flex-1 p-6">
+        <span class="service-badge self-start mb-2">
+            {{ $service->category?->name ?? 'Service' }}
+        </span>
         <h5 class="font-heading font-bold text-navy mb-1">{{ $service->title }}</h5>
         <x-public.rating-stars :rating="$service->reviews_avg_rating ?? 0" :count="$service->reviews_count ?? 0" class="mb-2" />
         <p class="text-sm text-muted flex-1 mb-4">
