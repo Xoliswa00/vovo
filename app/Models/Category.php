@@ -23,7 +23,7 @@ class Category extends Model
 
     public function services()
     {
-        return $this->hasMany(services::class);
+        return $this->hasMany(Service::class);
     }
 
     public function products()

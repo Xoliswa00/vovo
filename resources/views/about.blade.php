@@ -23,19 +23,19 @@
             </div>
 
             <div data-aos="fade-left">
-                {{-- TODO: replace with real Nobela photography (fleet, warehouse, boilermaking floor, team) --}}
+                {{-- Real Nobela boilermaking work. TODO: add fleet/warehouse/team photos once available. --}}
                 <div class="grid grid-cols-2 gap-3">
                     <div class="rounded-2xl overflow-hidden shadow-md">
-                        <img src="https://picsum.photos/seed/nobela-freight-fleet/500/440" class="w-full h-56 object-cover" alt="Freight fleet">
+                        <img src="{{ asset('assets/img/boilermaking-trailer-chassis-1.jpg') }}" class="w-full h-56 object-cover" alt="Custom trailer chassis fabricated and painted in-house">
                     </div>
                     <div class="rounded-2xl overflow-hidden shadow-md">
-                        <img src="https://picsum.photos/seed/nobela-warehouse/500/440" class="w-full h-56 object-cover" alt="Warehouse and dispatch">
+                        <img src="{{ asset('assets/img/boilermaking-trailer-chassis-2.jpg') }}" class="w-full h-56 object-cover" alt="Finished trailer chassis ready for assembly">
                     </div>
                     <div class="rounded-2xl overflow-hidden shadow-md">
-                        <img src="https://picsum.photos/seed/nobela-boilermaking/500/440" class="w-full h-56 object-cover" alt="Boilermaking and fabrication">
+                        <img src="{{ asset('assets/img/boilermaking-frame-weld.jpg') }}" class="w-full h-56 object-cover" alt="Welded steel frame joint on a trailer build">
                     </div>
                     <div class="rounded-2xl overflow-hidden shadow-md">
-                        <img src="https://picsum.photos/seed/nobela-team/500/440" class="w-full h-56 object-cover" alt="Nobela operations team">
+                        <img src="{{ asset('assets/img/boilermaking-axle-assembly.jpg') }}" class="w-full h-56 object-cover" alt="Trailer axle assembly under fabrication">
                     </div>
                 </div>
             </div>
@@ -44,20 +44,20 @@
         {{-- Stats --}}
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center mt-16" data-aos="fade-up">
             <div>
-                <h2 class="text-3xl font-extrabold font-heading text-accent">150+</h2>
+                <h2 class="text-3xl font-extrabold font-heading text-accent">{{ $shipmentCount }}+</h2>
                 <p class="text-muted text-sm">Shipments Completed</p>
             </div>
             <div>
-                <h2 class="text-3xl font-extrabold font-heading text-accent">50+</h2>
+                <h2 class="text-3xl font-extrabold font-heading text-accent">{{ $vendorCount }}+</h2>
                 <p class="text-muted text-sm">Trusted Vendors</p>
             </div>
             <div>
-                <h2 class="text-3xl font-extrabold font-heading text-accent">9</h2>
-                <p class="text-muted text-sm">Provinces Covered</p>
+                <h2 class="text-3xl font-extrabold font-heading text-accent">{{ $orderCount }}+</h2>
+                <p class="text-muted text-sm">Orders Completed</p>
             </div>
             <div>
-                <h2 class="text-3xl font-extrabold font-heading text-accent">100%</h2>
-                <p class="text-muted text-sm">Commitment to Quality</p>
+                <h2 class="text-3xl font-extrabold font-heading text-accent">{{ $avgRating > 0 ? $avgRating : '—' }}★</h2>
+                <p class="text-muted text-sm">Average Rating</p>
             </div>
         </div>
 

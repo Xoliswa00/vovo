@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServicesController;
+use App\Http\Controllers\ServicesImgController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VendorController;
@@ -11,13 +12,24 @@ use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\ShipmentController;
 use App\Http\Controllers\QuoteRequestController;
 use App\Http\Controllers\DashboardController;
+use App\Models\Vendor;
+use App\Models\Shipment;
+use App\Models\Order;
+use App\Models\Review;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 // ─── Public / Guest Routes ───────────────────────────────────────────────────
 
 Route::get('/', [DashboardController::class, 'welcome'])->name('welcome');
-Route::get('/about', fn() => view('about'))->name('about');
+Route::get('/about', function () {
+    return view('about', [
+        'vendorCount'   => Vendor::where('status', 'active')->count(),
+        'shipmentCount' => Shipment::where('status', 'delivered')->count(),
+        'orderCount'    => Order::where('status', 'completed')->count(),
+        'avgRating'     => round(Review::avg('rating') ?? 0, 1),
+    ]);
+})->name('about');
 Route::get('/test', fn() => 'Laravel is working!');
 
 // Marketplace
@@ -61,6 +73,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Admin + vendor: catalog management (ownership enforced via policies/controllers)
     Route::middleware('role:admin,vendor')->group(function () {
         Route::resource('services', ServicesController::class);
+        Route::post('/services/{service}/images', [ServicesImgController::class, 'store'])->name('services.images.store');
+        Route::delete('/services/images/{services_img}', [ServicesImgController::class, 'destroy'])->name('services.images.destroy');
+        Route::patch('/services/images/{services_img}/primary', [ServicesImgController::class, 'primary'])->name('services.images.primary');
         Route::resource('products', ProductController::class);
     });
 

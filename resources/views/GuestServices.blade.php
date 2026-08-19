@@ -8,7 +8,6 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="section-title text-center mb-10" data-aos="fade-up">
             <h2>Our Services</h2>
-            <p>Professional industrial and logistics services tailored to your needs.</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">

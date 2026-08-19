@@ -4,8 +4,17 @@
     'description' => 'Request a freight quote or browse verified industrial products and services from vetted South African vendors, all in one place.',
 ])
 
-<section class="relative overflow-hidden bg-gradient-to-br from-navy to-navy-deep">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+<section class="relative overflow-hidden bg-navy-deep">
+    <img
+        src="{{ asset('assets/img/hero-freight-highway.jpg') }}"
+        alt=""
+        class="absolute inset-0 w-full h-full object-cover"
+        loading="eager"
+        fetchpriority="high"
+    >
+    <div class="absolute inset-0 bg-gradient-to-br from-navy-deep/95 via-navy-deep/85 to-navy/70"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center" data-aos="fade-up" data-aos-delay="100">
             <div class="lg:col-span-7">
                 <span class="inline-flex items-center rounded-full px-4 py-2 bg-white/10 text-white/80 text-sm font-semibold mb-4">

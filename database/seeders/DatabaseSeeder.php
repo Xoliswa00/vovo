@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name'  => 'Admin User',
             'email' => 'admin@nobelaenterprises.co.za',
+            'role'  => 'admin',
         ]);
 
         $this->call([
@@ -19,6 +20,7 @@ class DatabaseSeeder extends Seeder
             VendorSeeder::class,
             VehicleSeeder::class,
             ServicesSeeder::class,
+            ProductSeeder::class,
         ]);
     }
 }

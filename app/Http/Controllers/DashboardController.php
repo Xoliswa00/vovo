@@ -8,6 +8,8 @@ use App\Models\QuoteRequest;
 use App\Models\Service;
 use App\Models\Product;
 use App\Models\Vehicle;
+use App\Models\Vendor;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -75,6 +77,9 @@ class DashboardController extends Controller
             ->withCount('reviews')->withAvg('reviews as reviews_avg_rating', 'rating')
             ->latest()->take(8)->get();
 
-        return view('welcome', compact('featuredServices', 'featuredProducts'));
+        $vendorCount = Vendor::where('status', 'active')->count();
+        $avgRating = round(Review::avg('rating') ?? 0, 1);
+
+        return view('welcome', compact('featuredServices', 'featuredProducts', 'vendorCount', 'avgRating'));
     }
 }

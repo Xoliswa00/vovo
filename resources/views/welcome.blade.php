@@ -17,12 +17,12 @@
                 <span>Support</span>
             </div>
             <div class="stat-band-item">
-                <strong>250+</strong>
+                <strong>{{ $vendorCount }}+</strong>
                 <span>Verified vendors</span>
             </div>
             <div class="stat-band-item">
-                <strong>99.8%</strong>
-                <span>On-time delivery</span>
+                <strong>{{ $avgRating > 0 ? $avgRating : '—' }}★</strong>
+                <span>Average rating</span>
             </div>
         </div>
     </div>

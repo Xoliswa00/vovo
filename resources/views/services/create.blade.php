@@ -59,16 +59,15 @@
                             <textarea name="description" rows="4" class="mt-1 w-full border-gray-300 rounded-md shadow-sm">{{ old('description', $service->description ?? '') }}</textarea>
                         </div>
                         <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700">Images</label>
-                            <input type="file" name="images[]" multiple accept="image/*" class="mt-1 w-full border border-gray-300 rounded-md p-2">
-                            <p class="text-xs text-gray-400 mt-1">JPG, PNG, WEBP — max 2MB each</p>
+                            <label class="block text-sm font-medium text-gray-700">Photos</label>
+
                             @if(isset($service) && $service->images->count())
-                                <div class="flex gap-2 mt-2 flex-wrap">
-                                    @foreach($service->images as $img)
-                                        <img src="{{ asset($img->image_path) }}" class="h-16 w-16 object-cover rounded border">
-                                    @endforeach
-                                </div>
+                                <p class="text-xs text-gray-500 mt-1 mb-1">Existing photos — hover to set a cover or delete:</p>
+                                <x-services.image-manager :service="$service" />
+                                <p class="text-xs text-gray-500 mt-3 mb-1">Add more:</p>
                             @endif
+
+                            <x-services.image-dropzone />
                         </div>
                     </div>
 

@@ -21,13 +21,16 @@
                 </div>
                 @if($service->description)<p class="text-gray-600">{{ $service->description }}</p>@endif
 
-                @if($service->images->count())
-                <div class="flex gap-3 mt-4 flex-wrap">
-                    @foreach($service->images as $img)
-                        <img src="{{ asset($img->image_path) }}" class="h-24 w-24 object-cover rounded border">
-                    @endforeach
+                <div class="mt-4">
+                    <p class="text-sm font-medium text-gray-700 mb-1">Photos</p>
+                    <x-services.image-manager :service="$service" />
+
+                    <form method="POST" action="{{ route('services.images.store', $service) }}" enctype="multipart/form-data" class="mt-3 max-w-sm">
+                        @csrf
+                        <x-services.image-dropzone />
+                        <button type="submit" class="mt-2 px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700">Upload Photos</button>
+                    </form>
                 </div>
-                @endif
             </div>
 
             {{-- Reviews --}}

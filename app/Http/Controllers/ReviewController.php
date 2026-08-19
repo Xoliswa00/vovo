@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Review;
 use App\Models\Product;
-use App\Models\services;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 class ReviewController extends Controller
@@ -26,7 +26,7 @@ class ReviewController extends Controller
 
         $model = match ($type) {
             'product' => Product::findOrFail($id),
-            'service' => services::findOrFail($id),
+            'service' => Service::findOrFail($id),
             default   => abort(404),
         };
 

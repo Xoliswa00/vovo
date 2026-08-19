@@ -13,7 +13,7 @@ class Service extends Model
 
     public function images()
     {
-        return $this->hasMany(services_img::class, 'services_id');
+        return $this->hasMany(services_img::class, 'services_id')->orderByDesc('is_primary')->orderBy('id');
     }
 
     public function category()

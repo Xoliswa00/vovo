@@ -37,7 +37,7 @@ class ServicesImgPolicy
      */
     public function update(User $user, services_img $servicesImg): bool
     {
-        return false;
+        return $user->isAdmin() || $servicesImg->service->vendor_id === $user->vendor?->id;
     }
 
     /**
@@ -45,7 +45,7 @@ class ServicesImgPolicy
      */
     public function delete(User $user, services_img $servicesImg): bool
     {
-        return false;
+        return $user->isAdmin() || $servicesImg->service->vendor_id === $user->vendor?->id;
     }
 
     /**
