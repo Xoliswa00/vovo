@@ -1,0 +1,25 @@
+#!/bin/sh
+# Runs automatically after every `git pull` / `git merge` (once
+# `git config core.hooksPath .githooks` has been set - see README below).
+#
+# Why this exists: on this host, public_html (the real document root) is a
+# separate physical copy from this git checkout, not a symlink - the jailed
+# shell environment (CageFS) blocks the web server from following symlinks
+# outside the doc root, so build/assets have to be *copied* in, not linked.
+# This hook does that copy automatically so it's never a manual step again.
+
+set -e
+
+REPO_DIR="$(git rev-parse --show-toplevel)"
+DOCROOT="$HOME/public_html"
+
+if [ ! -d "$DOCROOT" ]; then
+    echo "[post-merge] $DOCROOT not found, skipping asset sync"
+    exit 0
+fi
+
+mkdir -p "$DOCROOT/build" "$DOCROOT/assets"
+cp -r "$REPO_DIR/public/build/." "$DOCROOT/build/"
+cp -r "$REPO_DIR/public/assets/." "$DOCROOT/assets/"
+
+echo "[post-merge] synced public/build and public/assets -> $DOCROOT"
