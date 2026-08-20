@@ -42,24 +42,34 @@
         </div>
 
         {{-- Stats --}}
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center mt-16" data-aos="fade-up">
-            <div>
-                <h2 class="text-3xl font-extrabold font-heading text-accent">{{ $shipmentCount }}+</h2>
-                <p class="text-muted text-sm">Shipments Completed</p>
+        @if($shipmentCount >= 20 || $vendorCount >= 20 || $orderCount >= 20 || $avgRating >= 0.5)
+            <div class="flex flex-wrap justify-center gap-x-12 gap-y-6 text-center mt-16" data-aos="fade-up">
+                @if($shipmentCount >= 20)
+                    <div>
+                        <h2 class="text-3xl font-extrabold font-heading text-accent">{{ $shipmentCount }}+</h2>
+                        <p class="text-muted text-sm">Shipments Completed</p>
+                    </div>
+                @endif
+                @if($vendorCount >= 20)
+                    <div>
+                        <h2 class="text-3xl font-extrabold font-heading text-accent">{{ $vendorCount }}+</h2>
+                        <p class="text-muted text-sm">Trusted Vendors</p>
+                    </div>
+                @endif
+                @if($orderCount >= 20)
+                    <div>
+                        <h2 class="text-3xl font-extrabold font-heading text-accent">{{ $orderCount }}+</h2>
+                        <p class="text-muted text-sm">Orders Completed</p>
+                    </div>
+                @endif
+                @if($avgRating >= 0.5)
+                    <div>
+                        <h2 class="text-3xl font-extrabold font-heading text-accent">{{ $avgRating }}★</h2>
+                        <p class="text-muted text-sm">Average Rating</p>
+                    </div>
+                @endif
             </div>
-            <div>
-                <h2 class="text-3xl font-extrabold font-heading text-accent">{{ $vendorCount }}+</h2>
-                <p class="text-muted text-sm">Trusted Vendors</p>
-            </div>
-            <div>
-                <h2 class="text-3xl font-extrabold font-heading text-accent">{{ $orderCount }}+</h2>
-                <p class="text-muted text-sm">Orders Completed</p>
-            </div>
-            <div>
-                <h2 class="text-3xl font-extrabold font-heading text-accent">{{ $avgRating > 0 ? $avgRating : '—' }}★</h2>
-                <p class="text-muted text-sm">Average Rating</p>
-            </div>
-        </div>
+        @endif
 
         {{-- Contact --}}
         <div class="mt-16 p-8 lg:p-12 bg-navy text-white rounded-3xl" data-aos="fade-up" id="contact">

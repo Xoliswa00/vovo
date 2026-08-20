@@ -11,19 +11,23 @@
 {{-- Stat band --}}
 <section class="py-6 border-y border-slate-100" style="background: var(--surface-strong);">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-3 gap-4 text-center">
+        <div class="flex flex-wrap justify-center gap-x-16 gap-y-4 text-center">
             <div class="stat-band-item">
                 <strong>24/7</strong>
                 <span>Support</span>
             </div>
-            <div class="stat-band-item">
-                <strong>{{ $vendorCount }}+</strong>
-                <span>Verified vendors</span>
-            </div>
-            <div class="stat-band-item">
-                <strong>{{ $avgRating > 0 ? $avgRating : '—' }}★</strong>
-                <span>Average rating</span>
-            </div>
+            @if($vendorCount >= 20)
+                <div class="stat-band-item">
+                    <strong>{{ $vendorCount }}+</strong>
+                    <span>Verified vendors</span>
+                </div>
+            @endif
+            @if($avgRating >= 0.5)
+                <div class="stat-band-item">
+                    <strong>{{ $avgRating }}★</strong>
+                    <span>Average rating</span>
+                </div>
+            @endif
         </div>
     </div>
 </section>
