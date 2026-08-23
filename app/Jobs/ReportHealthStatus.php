@@ -3,8 +3,10 @@
 namespace App\Jobs;
 
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class ReportHealthStatus
 {
@@ -16,10 +18,6 @@ class ReportHealthStatus
      * Deliberately does NOT implement ShouldQueue — a heartbeat that depends on a
      * queue worker being alive can't tell you the worker itself died. The
      * scheduler (routes/console.php) runs this synchronously every 5 minutes.
-     *
-     * TODO: the endpoint path and payload keys below are a placeholder, not a
-     * confirmed contract — update them once the instance is created in Xquisite
-     * and its actual heartbeat API spec (path/auth/payload) is known.
      */
     public function handle(): void
     {
@@ -36,14 +34,29 @@ class ReportHealthStatus
             return;
         }
 
+        $dbConnectionOk = true;
+
         try {
-            Http::withToken($token)
+            DB::connection()->getPdo();
+        } catch (\Throwable) {
+            $dbConnectionOk = false;
+        }
+
+        try {
+            $response = Http::withToken($token)
                 ->timeout(5)
-                ->post(rtrim($url, '/').'/heartbeat', [
-                    'project'    => config('app.name'),
-                    'status'     => 'ok',
-                    'checked_at' => now()->toIso8601String(),
+                ->post($url, [
+                    'status'        => $dbConnectionOk ? 'up' : 'down',
+                    'db_connection' => $dbConnectionOk,
+                    'error_message' => $dbConnectionOk ? null : 'Database connection failed',
                 ]);
+
+            if (! $response->successful()) {
+                Log::warning('Health status heartbeat rejected by Xquisite.', [
+                    'status' => $response->status(),
+                    'body'   => Str::limit($response->body(), 500),
+                ]);
+            }
         } catch (\Throwable $e) {
             Log::warning('Health status heartbeat failed to send: '.$e->getMessage());
         }
