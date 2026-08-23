@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'monitoring' => [
+        'enabled' => env('MONITORING_ENABLED', false),
+        'url'     => env('MONITORING_URL'), // Base URL of the Xquisite monitoring instance for this site
+        'token'   => env('MONITORING_TOKEN'),
+    ],
+
 ];

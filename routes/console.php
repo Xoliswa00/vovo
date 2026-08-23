@@ -9,3 +9,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('sitemap:generate-dynamic')->daily();
+Schedule::job(new \App\Jobs\ReportHealthStatus)->everyFiveMinutes();
