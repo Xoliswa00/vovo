@@ -94,7 +94,7 @@
     <script src="{{ asset('assets/vendor/drift-zoom/Drift.min.js') }}"></script>
 
     <!-- Main JS File -->
-    <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script src="{{ asset('assets/js/main.js') }}?v={{ filemtime(public_path('assets/js/main.js')) }}"></script>
 
     @stack('scripts')
 
