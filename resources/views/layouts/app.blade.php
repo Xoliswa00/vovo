@@ -98,29 +98,6 @@
 
     @stack('scripts')
 
-    {{-- Xquisite Monitoring – JS error beacon --}}
-    <script>
-    (function () {
-        var endpoint = 'https://xquisite.brightfinance-x.co.za/js-error';
-        var project  = '{{ addslashes(config("app.name")) }}';
-        window.addEventListener('error', function (e) {
-            try {
-                fetch(endpoint, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        message: e.message || 'Unknown error',
-                        source:  e.filename  || null,
-                        line:    e.lineno    || null,
-                        col:     e.colno     || null,
-                        stack:   e.error ? e.error.stack : null,
-                        url:     window.location.href,
-                        project: project
-                    }),
-                    keepalive: true
-                });
-            } catch (_) {}
-        });
-    })();
-    </script></body>
+    @include('partials.monitoring-beacon')
+</body>
 </html>

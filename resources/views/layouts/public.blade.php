@@ -54,5 +54,7 @@
 <script src="{{ asset('assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
 <script src="{{ asset('assets/js/main.js') }}"></script>
 @stack('scripts')
+
+@include('partials.monitoring-beacon')
 </body>
 </html>
