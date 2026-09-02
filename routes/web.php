@@ -11,6 +11,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\ShipmentController;
 use App\Http\Controllers\QuoteRequestController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectImageController;
 use App\Http\Controllers\DashboardController;
 use App\Models\Vendor;
 use App\Models\Shipment;
@@ -41,6 +43,10 @@ Route::post('/marketplace/{product}/order', [OrderController::class, 'storeProdu
 Route::get('/our-services', [ServicesController::class, 'public'])->name('services.public');
 Route::get('/our-services/{service}', [ServicesController::class, 'publicShow'])->name('services.show.public');
 Route::post('/our-services/{service}/order', [OrderController::class, 'storeServiceOrder'])->name('services.order');
+
+// Our Work / fabrication gallery (public)
+Route::get('/our-work', [ProjectController::class, 'publicIndex'])->name('projects.public');
+Route::get('/our-work/{project}', [ProjectController::class, 'publicShow'])->name('projects.show.public');
 
 // Reviews (public submit)
 Route::post('/reviews/{type}/{id}', [ReviewController::class, 'store'])->name('reviews.store');
@@ -82,6 +88,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Admin only: platform-wide operations
     Route::middleware('role:admin')->group(function () {
         Route::resource('categories', CategoryController::class);
+
+        // Fabrication gallery ("Our Work")
+        Route::resource('projects', ProjectController::class)->except(['show']);
+        Route::post('/projects/{project}/images', [ProjectImageController::class, 'store'])->name('projects.images.store');
+        Route::delete('/projects/images/{project_image}', [ProjectImageController::class, 'destroy'])->name('projects.images.destroy');
+        Route::patch('/projects/images/{project_image}/primary', [ProjectImageController::class, 'primary'])->name('projects.images.primary');
+
         Route::resource('vendors', VendorController::class);
         Route::resource('reviews', ReviewController::class)->only(['index', 'destroy']);
         Route::resource('orders', OrderController::class)->only(['index', 'show', 'update']);

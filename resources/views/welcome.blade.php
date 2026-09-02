@@ -89,6 +89,26 @@
 </section>
 @endif
 
+{{-- Our Work --}}
+@if($featuredProjects->count())
+<section class="py-16 bg-soft" id="our-work">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
+        <div class="section-title text-center mb-12">
+            <h2>Our work</h2>
+            <p>A look at fabrication and boilermaking projects we've designed, built and delivered.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach($featuredProjects as $project)
+                <x-public.project-card :project="$project" data-aos-delay="{{ $loop->index * 100 }}" />
+            @endforeach
+        </div>
+        <div class="text-center mt-8">
+            <a href="{{ route('projects.public') }}" class="btn-brand-primary">View all our work</a>
+        </div>
+    </div>
+</section>
+@endif
+
 {{-- Logistics CTA --}}
 <section class="py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
