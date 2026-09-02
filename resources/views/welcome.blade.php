@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
-@section('title', 'Nobela Enterprises — Logistics & Marketplace')
-@section('meta_description', 'Professional logistics, freight, and marketplace services for your business.')
+@section('title', 'Nobela Enterprises — Logistics & Fabrication')
+@section('meta_description', 'Professional logistics, freight, and precision boilermaking &amp; fabrication services for your business.')
 
 @section('content')
 
@@ -69,33 +69,13 @@
     </div>
 </section>
 
-{{-- Featured Services --}}
-@if($featuredServices->count())
-<section class="py-16" id="services">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
-        <div class="section-title text-center mb-12">
-            <h2>Featured services for your business</h2>
-            <p>Explore specialised logistics and industrial services built around reliability and speed.</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach($featuredServices as $service)
-                <x-public.service-card :service="$service" data-aos-delay="{{ $loop->index * 100 }}" />
-            @endforeach
-        </div>
-        <div class="text-center mt-8">
-            <a href="{{ route('services.public') }}" class="btn-brand-primary">Explore all services</a>
-        </div>
-    </div>
-</section>
-@endif
-
 {{-- Our Work --}}
 @if($featuredProjects->count())
-<section class="py-16 bg-soft" id="our-work">
+<section class="py-16" id="our-work">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
         <div class="section-title text-center mb-12">
             <h2>Our work</h2>
-            <p>A look at fabrication and boilermaking projects we've designed, built and delivered.</p>
+            <p>Fabrication and boilermaking projects we've designed, built and delivered.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($featuredProjects as $project)
@@ -127,7 +107,7 @@
 </section>
 
 {{-- Marketplace Products --}}
-@if($featuredProducts->count())
+@if(config('features.marketplace') && $featuredProducts->count())
 <section class="py-16" id="marketplace">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
         <div class="section-title text-center mb-12">

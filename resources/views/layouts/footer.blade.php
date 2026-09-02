@@ -18,7 +18,9 @@
                 <ul class="space-y-2 text-sm">
                     <li><a href="{{ route('services.public') }}" class="hover:text-white transition-colors"><i class="bi bi-chevron-right text-accent-light me-1"></i> All Services</a></li>
                     <li><a href="{{ route('projects.public') }}" class="hover:text-white transition-colors"><i class="bi bi-chevron-right text-accent-light me-1"></i> Our Work</a></li>
+                    @if(config('features.marketplace'))
                     <li><a href="{{ route('marketplace.index') }}" class="hover:text-white transition-colors"><i class="bi bi-chevron-right text-accent-light me-1"></i> Marketplace</a></li>
+                    @endif
                     <li><a href="{{ route('quote.create') }}" class="hover:text-white transition-colors"><i class="bi bi-chevron-right text-accent-light me-1"></i> Get a Quote</a></li>
                     <li><a href="{{ route('orders.track.lookup') }}" class="hover:text-white transition-colors"><i class="bi bi-chevron-right text-accent-light me-1"></i> Track Order</a></li>
                 </ul>

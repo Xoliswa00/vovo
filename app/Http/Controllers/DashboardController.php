@@ -71,12 +71,11 @@ class DashboardController extends Controller
 
     public function welcome()
     {
-        $featuredServices = Service::where('status', true)->with('images', 'category')
-            ->withCount('reviews')->withAvg('reviews as reviews_avg_rating', 'rating')
-            ->latest()->take(6)->get();
-        $featuredProducts = Product::where('status', 'active')->with('images', 'category')
-            ->withCount('reviews')->withAvg('reviews as reviews_avg_rating', 'rating')
-            ->latest()->take(8)->get();
+        $featuredProducts = config('features.marketplace')
+            ? Product::where('status', 'active')->with('images', 'category')
+                ->withCount('reviews')->withAvg('reviews as reviews_avg_rating', 'rating')
+                ->latest()->take(8)->get()
+            : collect();
 
         // Guarded so the home page keeps rendering during the window between
         // this code deploying and `php artisan migrate` running on a host
@@ -92,6 +91,6 @@ class DashboardController extends Controller
         $vendorCount = Vendor::where('status', 'active')->count();
         $avgRating = round(Review::avg('rating') ?? 0, 1);
 
-        return view('welcome', compact('featuredServices', 'featuredProducts', 'featuredProjects', 'vendorCount', 'avgRating'));
+        return view('welcome', compact('featuredProducts', 'featuredProjects', 'vendorCount', 'avgRating'));
     }
 }
