@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Service;
 use App\Models\Category;
 use App\Models\Vendor;
+use App\Support\ImageUpload;
 use Illuminate\Http\Request;
 
 class ServicesController extends Controller
@@ -54,10 +55,8 @@ class ServicesController extends Controller
         $service = Service::create($validated);
 
         if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $filename = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('assets/img'), $filename);
-                $service->images()->create(['image_path' => 'assets/img/' . $filename]);
+            foreach ($request->file('images') as $index => $image) {
+                $service->images()->create(['image_path' => ImageUpload::store($image, index: $index)]);
             }
         }
 
@@ -105,10 +104,8 @@ class ServicesController extends Controller
         $service->update($validated);
 
         if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $filename = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('assets/img'), $filename);
-                $service->images()->create(['image_path' => 'assets/img/' . $filename]);
+            foreach ($request->file('images') as $index => $image) {
+                $service->images()->create(['image_path' => ImageUpload::store($image, index: $index)]);
             }
         }
 

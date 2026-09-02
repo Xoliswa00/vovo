@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Category;
 use App\Models\Vendor;
+use App\Support\ImageUpload;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -95,10 +96,8 @@ class ProductController extends Controller
         $product = Product::create($validated);
 
         if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $filename = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('assets/img/products'), $filename);
-                $product->images()->create(['image_path' => 'assets/img/products/' . $filename]);
+            foreach ($request->file('images') as $index => $image) {
+                $product->images()->create(['image_path' => ImageUpload::store($image, 'products', $index)]);
             }
         }
 
@@ -141,10 +140,8 @@ class ProductController extends Controller
         $product->update($validated);
 
         if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $filename = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('assets/img/products'), $filename);
-                $product->images()->create(['image_path' => 'assets/img/products/' . $filename]);
+            foreach ($request->file('images') as $index => $image) {
+                $product->images()->create(['image_path' => ImageUpload::store($image, 'products', $index)]);
             }
         }
 

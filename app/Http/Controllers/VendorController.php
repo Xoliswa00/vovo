@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Vendor;
 use App\Models\User;
+use App\Support\ImageUpload;
 use Illuminate\Http\Request;
 
 class VendorController extends Controller
@@ -33,9 +34,7 @@ class VendorController extends Controller
         ]);
 
         if ($request->hasFile('logo')) {
-            $filename = time() . '_' . $request->file('logo')->getClientOriginalName();
-            $request->file('logo')->move(public_path('assets/img/vendors'), $filename);
-            $validated['logo_path'] = 'assets/img/vendors/' . $filename;
+            $validated['logo_path'] = ImageUpload::store($request->file('logo'), 'vendors');
         }
         unset($validated['logo']);
 
@@ -69,9 +68,7 @@ class VendorController extends Controller
         ]);
 
         if ($request->hasFile('logo')) {
-            $filename = time() . '_' . $request->file('logo')->getClientOriginalName();
-            $request->file('logo')->move(public_path('assets/img/vendors'), $filename);
-            $validated['logo_path'] = 'assets/img/vendors/' . $filename;
+            $validated['logo_path'] = ImageUpload::store($request->file('logo'), 'vendors');
         }
         unset($validated['logo']);
 

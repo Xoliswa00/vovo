@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\ProjectImage;
+use App\Support\ImageUpload;
 use Illuminate\Http\Request;
 
 class ProjectImageController extends Controller
@@ -23,11 +24,8 @@ class ProjectImageController extends Controller
         $hasPrimary = $project->images()->where('is_primary', true)->exists();
 
         foreach ($request->file('images') as $index => $image) {
-            $filename = time() . '_' . $index . '_' . $image->getClientOriginalName();
-            $image->move(public_path('assets/img'), $filename);
-
             $project->images()->create([
-                'image_path' => 'assets/img/' . $filename,
+                'image_path' => ImageUpload::store($image, index: $index),
                 'is_primary' => ! $hasPrimary && $index === 0,
             ]);
         }
@@ -45,9 +43,7 @@ class ProjectImageController extends Controller
         $project    = $project_image->project;
         $wasPrimary = $project_image->is_primary;
 
-        if (str_starts_with($project_image->image_path, 'assets/img/') && file_exists(public_path($project_image->image_path))) {
-            @unlink(public_path($project_image->image_path));
-        }
+        ImageUpload::delete($project_image->image_path);
 
         $project_image->delete();
 

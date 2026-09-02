@@ -10,7 +10,9 @@
                 <a href="{{ url('/') }}" class="flex items-center gap-1.5 text-sm font-semibold transition-colors {{ request()->routeIs('welcome') ? 'text-accent' : 'text-navy hover:text-accent' }}"><i class="bi bi-house"></i> Home</a>
                 <a href="{{ route('services.public') }}" class="flex items-center gap-1.5 text-sm font-semibold transition-colors {{ request()->routeIs('services.public', 'services.show.public') ? 'text-accent' : 'text-navy hover:text-accent' }}"><i class="bi bi-gear"></i> Services</a>
                 <a href="{{ route('projects.public') }}" class="flex items-center gap-1.5 text-sm font-semibold transition-colors {{ request()->routeIs('projects.public', 'projects.show.public') ? 'text-accent' : 'text-navy hover:text-accent' }}"><i class="bi bi-hammer"></i> Our Work</a>
+                @if(config('features.marketplace'))
                 <a href="{{ route('marketplace.index') }}" class="flex items-center gap-1.5 text-sm font-semibold transition-colors {{ request()->routeIs('marketplace.*') ? 'text-accent' : 'text-navy hover:text-accent' }}"><i class="bi bi-shop"></i> Marketplace</a>
+                @endif
                 <a href="{{ route('quote.create') }}" class="flex items-center gap-1.5 text-sm font-semibold transition-colors {{ request()->routeIs('quote.*') ? 'text-accent' : 'text-navy hover:text-accent' }}"><i class="bi bi-truck"></i> Get a Quote</a>
                 <a href="{{ route('about') }}" class="flex items-center gap-1.5 text-sm font-semibold transition-colors {{ request()->routeIs('about') ? 'text-accent' : 'text-navy hover:text-accent' }}"><i class="bi bi-info-circle"></i> About</a>
             </nav>
@@ -38,7 +40,9 @@
             <a href="{{ url('/') }}" class="flex items-center gap-2 py-2 text-sm font-semibold text-navy"><i class="bi bi-house"></i> Home</a>
             <a href="{{ route('services.public') }}" class="flex items-center gap-2 py-2 text-sm font-semibold text-navy"><i class="bi bi-gear"></i> Services</a>
             <a href="{{ route('projects.public') }}" class="flex items-center gap-2 py-2 text-sm font-semibold text-navy"><i class="bi bi-hammer"></i> Our Work</a>
+            @if(config('features.marketplace'))
             <a href="{{ route('marketplace.index') }}" class="flex items-center gap-2 py-2 text-sm font-semibold text-navy"><i class="bi bi-shop"></i> Marketplace</a>
+            @endif
             <a href="{{ route('quote.create') }}" class="flex items-center gap-2 py-2 text-sm font-semibold text-navy"><i class="bi bi-truck"></i> Get a Quote</a>
             <a href="{{ route('about') }}" class="flex items-center gap-2 py-2 text-sm font-semibold text-navy"><i class="bi bi-info-circle"></i> About</a>
             <a href="{{ route('orders.track.lookup') }}" class="flex items-center gap-2 py-2 text-sm font-semibold text-navy"><i class="bi bi-box-seam"></i> Track Order</a>

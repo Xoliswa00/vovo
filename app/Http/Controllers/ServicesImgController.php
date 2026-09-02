@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use App\Models\services_img;
+use App\Support\ImageUpload;
 use Illuminate\Http\Request;
 
 class ServicesImgController extends Controller
@@ -23,11 +24,8 @@ class ServicesImgController extends Controller
         $hasPrimary = $service->images()->where('is_primary', true)->exists();
 
         foreach ($request->file('images') as $index => $image) {
-            $filename = time() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('assets/img'), $filename);
-
             $service->images()->create([
-                'image_path' => 'assets/img/' . $filename,
+                'image_path' => ImageUpload::store($image, index: $index),
                 'is_primary' => ! $hasPrimary && $index === 0,
             ]);
         }
@@ -45,9 +43,7 @@ class ServicesImgController extends Controller
         $service = $services_img->service;
         $wasPrimary = $services_img->is_primary;
 
-        if (str_starts_with($services_img->image_path, 'assets/img/') && file_exists(public_path($services_img->image_path))) {
-            @unlink(public_path($services_img->image_path));
-        }
+        ImageUpload::delete($services_img->image_path);
 
         $services_img->delete();
 

@@ -66,9 +66,13 @@ class GalleryTest extends TestCase
         $this->assertNotNull($project);
         $this->assertSame('pressure-vessel-fabrication', $project->slug);
         $this->assertCount(1, $project->images);
-        $this->assertTrue($project->images->first()->is_primary);
 
-        @unlink(public_path($project->images->first()->image_path));
+        $image = $project->images->first();
+        $this->assertTrue($image->is_primary);
+        $this->assertStringStartsWith('assets/img/', $image->image_path);
+        $this->assertFileExists(public_path($image->image_path));
+
+        @unlink(public_path($image->image_path));
     }
 
     public function test_new_project_is_a_draft_until_explicitly_published(): void
