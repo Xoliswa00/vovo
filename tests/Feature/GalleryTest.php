@@ -6,7 +6,6 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class GalleryTest extends TestCase
@@ -15,12 +14,10 @@ class GalleryTest extends TestCase
 
     public function test_public_our_work_page_lists_only_published_projects(): void
     {
-        $published = Project::factory()->create(['title' => 'Steel Walkway Build']);
-        $draft     = Project::factory()->draft()->create(['title' => 'Secret Draft Project']);
+        Project::factory()->create(['title' => 'Steel Walkway Build']);
+        Project::factory()->draft()->create(['title' => 'Secret Draft Project']);
 
-        $response = $this->get('/our-work');
-
-        $response->assertOk()
+        $this->get('/our-work')
             ->assertSee('Steel Walkway Build')
             ->assertDontSee('Secret Draft Project');
     }
@@ -72,6 +69,18 @@ class GalleryTest extends TestCase
         $this->assertTrue($project->images->first()->is_primary);
 
         @unlink(public_path($project->images->first()->image_path));
+    }
+
+    public function test_new_project_is_a_draft_until_explicitly_published(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+
+        $this->actingAs($admin)->post('/projects', ['title' => 'Half-finished entry'])
+            ->assertRedirect(route('projects.index'));
+
+        $project = Project::firstWhere('title', 'Half-finished entry');
+        $this->assertFalse($project->is_published);
+        $this->get('/our-work')->assertDontSee('Half-finished entry');
     }
 
     public function test_slug_is_unique_across_projects(): void

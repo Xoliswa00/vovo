@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('client')->nullable();
             $table->string('location')->nullable();
             $table->date('completed_at')->nullable();
-            $table->boolean('is_published')->default(true);
+            $table->boolean('is_published')->default(false);
             $table->boolean('is_featured')->default(false);
             $table->unsignedInteger('sort_order')->default(0);
             $table->timestamps();

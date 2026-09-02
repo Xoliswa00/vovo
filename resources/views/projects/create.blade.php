@@ -60,8 +60,8 @@
 
                         <div class="flex items-center gap-3 pt-2">
                             <input type="hidden" name="is_published" value="0">
-                            <input type="checkbox" name="is_published" id="is_published" value="1" {{ old('is_published', $project->is_published ?? true) ? 'checked' : '' }} class="rounded">
-                            <label for="is_published" class="text-sm font-medium text-gray-700">Published (visible on the site)</label>
+                            <input type="checkbox" name="is_published" id="is_published" value="1" {{ old('is_published', $project->is_published ?? false) ? 'checked' : '' }} class="rounded">
+                            <label for="is_published" class="text-sm font-medium text-gray-700">Published <span class="text-gray-400 font-normal">— tick once the photos and write-up are ready</span></label>
                         </div>
                         <div class="flex items-center gap-3 pt-2">
                             <input type="hidden" name="is_featured" value="0">
