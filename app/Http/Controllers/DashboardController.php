@@ -7,6 +7,7 @@ use App\Models\Shipment;
 use App\Models\QuoteRequest;
 use App\Models\Service;
 use App\Models\Product;
+use App\Models\Project;
 use App\Models\Vehicle;
 use App\Models\Vendor;
 use App\Models\Review;
@@ -77,9 +78,20 @@ class DashboardController extends Controller
             ->withCount('reviews')->withAvg('reviews as reviews_avg_rating', 'rating')
             ->latest()->take(8)->get();
 
+        // Guarded so the home page keeps rendering during the window between
+        // this code deploying and `php artisan migrate` running on a host
+        // (the doc root is a separate copy synced by a hook, so the two
+        // steps aren't atomic). A missing table just hides the section.
+        $featuredProjects = rescue(fn () => Project::published()
+            ->where('is_featured', true)
+            ->with('images')
+            ->ordered()
+            ->take(3)
+            ->get(), collect(), report: false);
+
         $vendorCount = Vendor::where('status', 'active')->count();
         $avgRating = round(Review::avg('rating') ?? 0, 1);
 
-        return view('welcome', compact('featuredServices', 'featuredProducts', 'vendorCount', 'avgRating'));
+        return view('welcome', compact('featuredServices', 'featuredProducts', 'featuredProjects', 'vendorCount', 'avgRating'));
     }
 }
