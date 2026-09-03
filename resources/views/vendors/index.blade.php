@@ -1,20 +1,18 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800">Vendors</h2>
-            <a href="{{ route('vendors.create') }}" class="px-4 py-2 bg-green-600 text-white rounded-md text-sm hover:bg-green-700">+ Add Vendor</a>
-        </div>
+        <h2 class="font-semibold text-xl text-gray-800">Vendors</h2>
     </x-slot>
 
     <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            @if(session('success'))
-                <div class="mb-4 p-4 bg-green-100 text-green-800 rounded-lg">{{ session('success') }}</div>
-            @endif
+            <div class="mb-4 flex justify-end">
+                <a href="{{ route('vendors.create') }}" class="px-4 py-2 bg-green-600 text-white rounded-md text-sm hover:bg-green-700">+ Add Vendor</a>
+            </div>
 
             <div class="bg-white shadow rounded-lg overflow-hidden">
-                <table class="w-full text-sm">
+                <div class="overflow-x-auto">
+                <table class="w-full text-sm min-w-[720px]">
                     <thead class="bg-gray-50 text-xs text-gray-500 uppercase">
                         <tr>
                             <th class="px-6 py-3 text-left">Business</th>
@@ -54,6 +52,7 @@
                         @endforelse
                     </tbody>
                 </table>
+                </div>
                 <div class="p-4">{{ $vendors->links() }}</div>
             </div>
         </div>

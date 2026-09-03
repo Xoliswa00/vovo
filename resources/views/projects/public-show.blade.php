@@ -53,29 +53,27 @@
 
             {{-- Details --}}
             <div>
-                @if($project->category)<span class="badge-brand bg-accent text-white mb-2">{{ $project->category }}</span>@endif
+                @if($project->category)<span class="badge-brand bg-accent-dark text-white mb-2">{{ $project->category }}</span>@endif
                 <h1 class="text-2xl font-bold font-heading text-navy mb-2">{{ $project->title }}</h1>
                 @if($project->summary)<p class="text-lg text-muted mb-4">{{ $project->summary }}</p>@endif
 
                 <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 mb-6">
                     @if($project->client)
-                        <div><dt class="text-xs uppercase tracking-wide text-muted">Client</dt><dd class="text-navy font-medium">{{ $project->client }}</dd></div>
+                        <div><dt class="text-xs font-semibold uppercase tracking-wide text-muted">Client</dt><dd class="text-navy font-medium">{{ $project->client }}</dd></div>
                     @endif
                     @if($project->location)
-                        <div><dt class="text-xs uppercase tracking-wide text-muted">Location</dt><dd class="text-navy font-medium">{{ $project->location }}</dd></div>
+                        <div><dt class="text-xs font-semibold uppercase tracking-wide text-muted">Location</dt><dd class="text-navy font-medium">{{ $project->location }}</dd></div>
                     @endif
                     @if($project->materials)
-                        <div><dt class="text-xs uppercase tracking-wide text-muted">Materials</dt><dd class="text-navy font-medium">{{ $project->materials }}</dd></div>
+                        <div><dt class="text-xs font-semibold uppercase tracking-wide text-muted">Materials</dt><dd class="text-navy font-medium">{{ $project->materials }}</dd></div>
                     @endif
                     @if($project->completed_at)
-                        <div><dt class="text-xs uppercase tracking-wide text-muted">Completed</dt><dd class="text-navy font-medium">{{ $project->completed_at->format('F Y') }}</dd></div>
+                        <div><dt class="text-xs font-semibold uppercase tracking-wide text-muted">Completed</dt><dd class="text-navy font-medium">{{ $project->completed_at->format('F Y') }}</dd></div>
                     @endif
                 </dl>
 
                 @if($project->description)
-                    <div class="text-sm leading-relaxed text-muted space-y-3">
-                        {!! nl2br(e($project->description)) !!}
-                    </div>
+                    <p class="text-sm leading-relaxed text-muted whitespace-pre-line">{{ $project->description }}</p>
                 @endif
 
                 <div class="mt-8 flex flex-wrap gap-3">
