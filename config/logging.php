@@ -54,8 +54,20 @@ return [
 
         'stack' => [
             'driver' => 'stack',
-            'channels' => explode(',', (string) env('LOG_STACK', 'single')),
+            // 'database' is always appended so the Xquisite error forwarder
+            // (nobela:report-errors) has a source to ship from, regardless of
+            // what LOG_STACK is set to.
+            'channels' => array_values(array_unique(array_merge(
+                explode(',', (string) env('LOG_STACK', 'single')),
+                ['database'],
+            ))),
             'ignore_exceptions' => false,
+        ],
+
+        'database' => [
+            'driver' => 'monolog',
+            'handler' => \App\Logging\DatabaseLogHandler::class,
+            'level' => env('LOG_LEVEL', 'debug'),
         ],
 
         'single' => [
