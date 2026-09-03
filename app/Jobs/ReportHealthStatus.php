@@ -25,14 +25,16 @@ class ReportHealthStatus
             return;
         }
 
-        $url = config('services.monitoring.url');
+        $base = config('services.monitoring.url');
         $token = config('services.monitoring.token');
 
-        if (! $url || ! $token) {
+        if (! $base || ! $token) {
             Log::warning('Health status reporting is enabled but MONITORING_URL or MONITORING_TOKEN is missing.');
 
             return;
         }
+
+        $url = rtrim($base, '/').'/api/health-report';
 
         $dbConnectionOk = true;
 

@@ -37,8 +37,13 @@ return [
 
     'monitoring' => [
         'enabled' => env('MONITORING_ENABLED', false),
-        'url'     => env('MONITORING_URL'), // Base URL of the Xquisite monitoring instance for this site
+        // Xquisite hub BASE url — jobs append /api/health-report and /ingest/logs.
+        // A legacy MONITORING_URL that still carries the /api/health-report path
+        // is normalised back to the base here so both jobs build correct URLs
+        // whether or not the deployed .env has been updated.
+        'url'     => rtrim((string) preg_replace('#/api/health-report/?$#', '', (string) env('MONITORING_URL')), '/') ?: null,
         'token'   => env('MONITORING_TOKEN'),
+        'slug'    => env('MONITORING_SLUG', 'nobela'), // this instance's slug on the hub; drives the dedup fingerprint
     ],
 
 ];
