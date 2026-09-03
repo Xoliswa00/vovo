@@ -1,15 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <div>
-                <h2 class="font-semibold text-xl text-gray-800">Shipment Detail</h2>
-                <p class="text-sm text-gray-500 mt-0.5">{{ $shipment->origin }} → {{ $shipment->destination }}</p>
-            </div>
-            <div class="flex gap-2">
-                <a href="{{ route('shipments.edit', $shipment) }}" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition">Edit</a>
-                <a href="{{ route('shipments.index') }}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-300 transition">Back</a>
-            </div>
-        </div>
+        <h2 class="font-semibold text-xl text-gray-800">Shipment Detail</h2>
     </x-slot>
 
     @push('styles')
@@ -31,6 +22,14 @@
 
     <div class="py-8">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-6">
+
+            <div class="bg-white shadow rounded-lg px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+                <div class="flex flex-wrap items-center gap-3">
+                    <a href="{{ route('shipments.index') }}" class="text-sm font-medium text-gray-500 hover:text-gray-700">&larr; Back to Shipments</a>
+                    <span class="text-sm text-gray-500">{{ $shipment->origin }} &rarr; {{ $shipment->destination }}</span>
+                </div>
+                <a href="{{ route('shipments.edit', $shipment) }}" class="px-4 py-2 bg-indigo-600 text-white rounded-md text-sm hover:bg-indigo-700">Edit</a>
+            </div>
 
             @if(session('success'))
                 <div class="p-4 bg-green-50 border border-green-200 text-green-800 rounded-xl text-sm">{{ session('success') }}</div>

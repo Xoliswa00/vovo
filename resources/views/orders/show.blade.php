@@ -1,13 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800">Order {{ $order->order_number }}</h2>
-            <a href="{{ route('orders.index') }}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md text-sm">Back</a>
-        </div>
+        <h2 class="font-semibold text-xl text-gray-800">Order {{ $order->order_number }}</h2>
     </x-slot>
 
     <div class="py-8">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-6">
+
+            <a href="{{ route('orders.index') }}" class="inline-flex items-center gap-1 text-sm font-medium text-gray-500 hover:text-gray-700">&larr; Back to Orders</a>
 
             @if(session('success'))
                 <div class="p-4 bg-green-100 text-green-800 rounded-lg">{{ session('success') }}</div>

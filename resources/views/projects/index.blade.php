@@ -1,13 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800">Our Work</h2>
-            <a href="{{ route('projects.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700">+ New Project</a>
-        </div>
+        <h2 class="font-semibold text-xl text-gray-800">Our Work</h2>
     </x-slot>
 
     <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+            <div class="mb-4 flex justify-end">
+                <a href="{{ route('projects.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700">+ New Project</a>
+            </div>
 
             {{-- Flash is handled globally by <x-toast /> in the app layout. --}}
 

@@ -1,13 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800">Products</h2>
-            <a href="{{ route('products.create') }}" class="px-4 py-2 bg-purple-600 text-white rounded-md text-sm hover:bg-purple-700">+ Add Product</a>
-        </div>
+        <h2 class="font-semibold text-xl text-gray-800">Products</h2>
     </x-slot>
 
     <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+            <div class="mb-4 flex justify-end">
+                <a href="{{ route('products.create') }}" class="px-4 py-2 bg-purple-600 text-white rounded-md text-sm hover:bg-purple-700">+ Add Product</a>
+            </div>
 
             @if(session('success'))
                 <div class="mb-4 p-4 bg-green-100 text-green-800 rounded-lg">{{ session('success') }}</div>

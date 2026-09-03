@@ -1,16 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800">{{ $service->title }}</h2>
-            <div class="flex gap-2">
-                <a href="{{ route('services.edit', $service) }}" class="px-4 py-2 bg-gray-600 text-white rounded-md text-sm">Edit</a>
-                <a href="{{ route('services.index') }}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md text-sm">Back</a>
-            </div>
-        </div>
+        <h2 class="font-semibold text-xl text-gray-800">{{ $service->title }}</h2>
     </x-slot>
 
     <div class="py-8">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-6">
+
+            <div class="bg-white shadow rounded-lg px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+                <a href="{{ route('services.index') }}" class="text-sm font-medium text-gray-500 hover:text-gray-700">&larr; Back to Services</a>
+                <a href="{{ route('services.edit', $service) }}" class="px-4 py-2 bg-gray-600 text-white rounded-md text-sm hover:bg-gray-700">Edit</a>
+            </div>
 
             <div class="bg-white shadow rounded-lg p-6">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mb-4">

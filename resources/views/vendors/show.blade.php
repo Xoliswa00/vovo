@@ -1,13 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800">{{ $vendor->business_name }}</h2>
-            <a href="{{ route('vendors.edit', $vendor) }}" class="px-4 py-2 bg-gray-600 text-white rounded-md text-sm">Edit</a>
-        </div>
+        <h2 class="font-semibold text-xl text-gray-800">{{ $vendor->business_name }}</h2>
     </x-slot>
 
     <div class="py-8">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="bg-white shadow rounded-lg px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+                <a href="{{ route('vendors.index') }}" class="text-sm font-medium text-gray-500 hover:text-gray-700">&larr; Back to Vendors</a>
+                <a href="{{ route('vendors.edit', $vendor) }}" class="px-4 py-2 bg-gray-600 text-white rounded-md text-sm hover:bg-gray-700">Edit</a>
+            </div>
             <div class="bg-white shadow rounded-lg p-6">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                     <div><p class="text-gray-500 text-xs">Phone</p><p class="font-medium">{{ $vendor->phone ?? '—' }}</p></div>
