@@ -8,10 +8,6 @@
 
             <a href="{{ route('quote-requests.index') }}" class="inline-flex items-center gap-1 text-sm font-medium text-gray-500 hover:text-gray-700">&larr; Back to Quote Requests</a>
 
-            @if(session('success'))
-                <div class="p-4 bg-green-100 text-green-800 rounded-lg">{{ session('success') }}</div>
-            @endif
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {{-- Client & Route --}}
                 <div class="bg-white shadow rounded-lg p-6">

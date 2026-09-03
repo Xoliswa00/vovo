@@ -10,12 +10,9 @@
                 <a href="{{ route('services.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700">+ New Service</a>
             </div>
 
-            @if(session('success'))
-                <div class="mb-4 p-4 bg-green-100 text-green-800 rounded-lg">{{ session('success') }}</div>
-            @endif
-
             <div class="bg-white shadow rounded-lg overflow-hidden">
-                <table class="w-full text-sm">
+                <div class="overflow-x-auto">
+                <table class="w-full text-sm min-w-[720px]">
                     <thead class="bg-gray-50 text-xs text-gray-500 uppercase">
                         <tr>
                             <th class="px-6 py-3 text-left">Service</th>
@@ -55,6 +52,7 @@
                         @endforelse
                     </tbody>
                 </table>
+                </div>
                 <div class="p-4">{{ $services->links() }}</div>
             </div>
         </div>

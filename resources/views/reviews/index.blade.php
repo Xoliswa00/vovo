@@ -6,12 +6,9 @@
     <div class="py-8">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
 
-            @if(session('success'))
-                <div class="mb-4 p-4 bg-green-100 text-green-800 rounded-lg">{{ session('success') }}</div>
-            @endif
-
             <div class="bg-white shadow rounded-lg overflow-hidden">
-                <table class="w-full text-sm">
+                <div class="overflow-x-auto">
+                <table class="w-full text-sm min-w-[720px]">
                     <thead class="bg-gray-50 text-xs text-gray-500 uppercase">
                         <tr>
                             <th class="px-6 py-3 text-left">Reviewer</th>
@@ -47,6 +44,7 @@
                         @endforelse
                     </tbody>
                 </table>
+                </div>
                 <div class="p-4">{{ $reviews->links() }}</div>
             </div>
         </div>

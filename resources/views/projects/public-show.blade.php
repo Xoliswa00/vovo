@@ -53,7 +53,7 @@
 
             {{-- Details --}}
             <div>
-                @if($project->category)<span class="badge-brand bg-accent text-white mb-2">{{ $project->category }}</span>@endif
+                @if($project->category)<span class="badge-brand bg-accent-dark text-white mb-2">{{ $project->category }}</span>@endif
                 <h1 class="text-2xl font-bold font-heading text-navy mb-2">{{ $project->title }}</h1>
                 @if($project->summary)<p class="text-lg text-muted mb-4">{{ $project->summary }}</p>@endif
 

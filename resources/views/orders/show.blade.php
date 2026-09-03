@@ -8,10 +8,6 @@
 
             <a href="{{ route('orders.index') }}" class="inline-flex items-center gap-1 text-sm font-medium text-gray-500 hover:text-gray-700">&larr; Back to Orders</a>
 
-            @if(session('success'))
-                <div class="p-4 bg-green-100 text-green-800 rounded-lg">{{ session('success') }}</div>
-            @endif
-
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {{-- Order Info --}}
                 <div class="md:col-span-2 bg-white shadow rounded-lg p-6 space-y-4">
@@ -33,7 +29,8 @@
                     @if($order->items->count())
                     <div class="border-t pt-4">
                         <h4 class="font-semibold text-sm text-gray-700 mb-2">Items</h4>
-                        <table class="w-full text-sm">
+                        <div class="overflow-x-auto">
+                        <table class="w-full text-sm min-w-[480px]">
                             <thead class="bg-gray-50 text-xs text-gray-500">
                                 <tr><th class="px-3 py-2 text-left">Item</th><th class="px-3 py-2 text-right">Qty</th><th class="px-3 py-2 text-right">Unit Price</th><th class="px-3 py-2 text-right">Subtotal</th></tr>
                             </thead>
@@ -48,6 +45,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        </div>
                     </div>
                     @endif
                 </div>

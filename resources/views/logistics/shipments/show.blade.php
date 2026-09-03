@@ -31,10 +31,6 @@
                 <a href="{{ route('shipments.edit', $shipment) }}" class="px-4 py-2 bg-indigo-600 text-white rounded-md text-sm hover:bg-indigo-700">Edit</a>
             </div>
 
-            @if(session('success'))
-                <div class="p-4 bg-green-50 border border-green-200 text-green-800 rounded-xl text-sm">{{ session('success') }}</div>
-            @endif
-
             @php
                 $steps = [
                     ['key' => 'pending',    'label' => 'Created',    'icon' => '📋', 'desc' => 'Shipment request received'],
