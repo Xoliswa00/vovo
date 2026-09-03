@@ -25,7 +25,7 @@
             {{ \Illuminate\Support\Str::limit($project->summary ?: $project->description, 110) }}
         </p>
 
-        <div class="flex items-center justify-between gap-3 mt-auto text-xs text-muted">
+        <div class="flex items-center justify-between gap-3 mt-auto text-xs font-medium text-muted">
             <span>
                 @if($project->completed_at)
                     <i class="bi bi-calendar3 mr-1"></i>{{ $project->completed_at->format('M Y') }}
