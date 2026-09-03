@@ -498,7 +498,7 @@ a:hover {
 
 .service-badge {
   background: rgba(46, 147, 189, 0.14);
-  color: var(--accent-color);
+  color: var(--heading-color); /* navy, not accent — accent on this tint is ~3.4:1 (fails AA) */
   font-weight: 700;
   padding: 0.45rem 0.95rem;
   border-radius: 999px;
