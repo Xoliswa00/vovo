@@ -36,8 +36,9 @@
                 <h5 class="text-white font-bold font-heading mb-4">Get in Touch</h5>
                 <ul class="space-y-2 text-sm">
                     <li><i class="bi bi-geo-alt text-accent-light me-2"></i> 120 Rietfontein Road, Germiston</li>
-                    <li><i class="bi bi-telephone text-accent-light me-2"></i> +27 82 123 4567</li>
-                    <li><i class="bi bi-envelope text-accent-light me-2"></i> info@nobelaenterprises.co.za</li>
+                    <li><i class="bi bi-telephone text-accent-light me-2"></i> <a href="tel:+27100232809" class="hover:text-white transition-colors">010 023 2809</a> (Landline)</li>
+                    <li><i class="bi bi-phone text-accent-light me-2"></i> <a href="tel:+27629252686" class="hover:text-white transition-colors">062 925 2686</a> (Cell)</li>
+                    <li><i class="bi bi-envelope text-accent-light me-2"></i> <a href="mailto:nobelamenterprise@gmail.com" class="hover:text-white transition-colors">nobelamenterprise@gmail.com</a></li>
                 </ul>
             </div>
         </div>
